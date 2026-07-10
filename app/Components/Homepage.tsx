@@ -105,7 +105,7 @@ const HomePage = () => {
       <OrderTrackingBanner />
       <SeasonalFruits />
       <Testimonials />
-      {/* <WhatsAppSection /> */}
+      <WhatsAppSection />
       <NewsletterSection />
       <FAQSection />
       <CTASection />
