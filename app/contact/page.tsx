@@ -1,5 +1,10 @@
-'use client'
-import React, { useState } from "react";
+"use client";
+
+import React, {
+  useState,
+  ChangeEvent,
+  FormEvent,
+} from "react";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
 const Contact = () => {
@@ -10,14 +15,16 @@ const Contact = () => {
     message: "",
   });
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setForm((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const whatsappNumber = "917360886960";
@@ -38,6 +45,14 @@ ${form.message}
     )}`;
 
     window.open(whatsappURL, "_blank");
+
+    // Optional: Clear form after sending
+    setForm({
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+    });
   };
 
   return (
@@ -47,15 +62,15 @@ ${form.message}
         <h1 className="text-4xl font-bold text-green-700">
           Contact Us
         </h1>
-        <p className="text-gray-600 mt-3">
+        <p className="mt-3 text-gray-600">
           Have questions? We are happy to help you.
         </p>
       </div>
 
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2">
         {/* Contact Information */}
-        <div className="bg-green-700 text-white rounded-2xl p-8">
-          <h2 className="text-2xl font-bold mb-6">
+        <div className="rounded-2xl bg-green-700 p-8 text-white">
+          <h2 className="mb-6 text-2xl font-bold">
             Get In Touch
           </h2>
 
@@ -83,8 +98,8 @@ ${form.message}
         </div>
 
         {/* Contact Form */}
-        <div className="bg-white rounded-2xl shadow-md p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        <div className="rounded-2xl bg-white p-8 shadow-md">
+          <h2 className="mb-6 text-2xl font-bold text-gray-800">
             Send Message
           </h2>
 
@@ -96,7 +111,7 @@ ${form.message}
               onChange={handleChange}
               placeholder="Your Name"
               required
-              className="w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full rounded-lg border px-4 py-3 text-gray-900 placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-green-500"
             />
 
             <input
@@ -106,7 +121,7 @@ ${form.message}
               onChange={handleChange}
               placeholder="Your Email"
               required
-              className="w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full rounded-lg border px-4 py-3 text-gray-900 placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-green-500"
             />
 
             <input
@@ -116,7 +131,7 @@ ${form.message}
               onChange={handleChange}
               placeholder="Phone Number"
               required
-              className="w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full rounded-lg border px-4 py-3 text-gray-900 placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-green-500"
             />
 
             <textarea
@@ -126,12 +141,12 @@ ${form.message}
               placeholder="Your Message"
               rows={4}
               required
-              className="w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full rounded-lg border px-4 py-3 text-gray-900 placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-green-500"
             />
 
             <button
               type="submit"
-              className=" cursor-pointer w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
+              className="w-full cursor-pointer rounded-lg bg-green-600 py-3 font-semibold text-white transition hover:bg-green-700"
             >
               Send Message on WhatsApp
             </button>
