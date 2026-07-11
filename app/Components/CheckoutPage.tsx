@@ -19,7 +19,7 @@ const CheckoutPage = () => {
     const orderId = generateOrderId();
     setTimeout(() => {
       clearCart();
-      router.push(`/track-order?id=${orderId}`);
+      router.push(`/orders?id=${orderId}`);
     }, 900);
   };
 

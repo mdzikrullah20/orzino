@@ -11,7 +11,7 @@ const OrderTrackingBanner = () => {
 
   const handleTrack = () => {
     if (!orderId.trim()) return;
-    router.push(`/track-order?id=${encodeURIComponent(orderId.trim())}`);
+    router.push(`/orders?id=${encodeURIComponent(orderId.trim())}`);
   };
 
   return (

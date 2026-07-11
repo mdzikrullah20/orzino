@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Menu, X, ShoppingBag } from "lucide-react";
-import Logo from "./Logo";
-
+import Image from "next/image";
+import Link from "next/link";
 const links = [
   { label: "Home", href: "/" },
   { label: "Products", href: "/products" },
@@ -27,8 +27,15 @@ const Navbar = () => {
       }`}
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <Logo />
-
+       <Link href="/" className="cursor-pointer">
+    <Image
+      src="/logo.png"
+      alt="Orzino Logo"
+      width={80}
+      height={80}
+      priority
+    />
+  </Link>
         {/* Desktop links */}
         <ul className="hidden md:flex gap-9 text-[#1A1A1A] font-medium">
           {links.map((link) => (
@@ -41,12 +48,15 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <div className="hidden md:block">
-          <button className="cursor-pointer bg-[#40916C] text-white px-6 py-2.5 rounded-full font-medium flex items-center gap-2 hover:bg-[#1B4332] transition-colors duration-300">
-            <ShoppingBag size={18} />
-            Order Now
-          </button>
-        </div>
+      <div className="hidden md:block">
+  <Link
+    href="/products"
+    className="cursor-pointer bg-[#40916C] text-white px-6 py-2.5 rounded-full font-medium flex items-center gap-2 hover:bg-[#1B4332] transition-colors duration-300"
+  >
+    <ShoppingBag size={18} />
+    Order Now
+  </Link>
+</div>
 
         {/* Mobile toggle */}
         <button className="md:hidden text-[#1B4332]" onClick={() => setOpen((o) => !o)} aria-label="Toggle menu">

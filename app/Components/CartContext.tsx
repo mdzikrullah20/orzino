@@ -33,7 +33,11 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const stored = localStorage.getItem("orzino-cart");
     if (stored) {
       try {
-        setItems(JSON.parse(stored));
+        const parsed = JSON.parse(stored) as CartItem[];
+        const valid = Array.isArray(parsed)
+          ? parsed.filter((i) => i && typeof i.id === "string" && i.id.length > 0)
+          : [];
+        setItems(valid);
       } catch {}
     }
     setHydrated(true);
@@ -44,6 +48,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   }, [items, hydrated]);
 
   const addToCart = (item: Omit<CartItem, "quantity">) => {
+    if (!item.id || typeof item.id !== "string") {
+      console.warn("addToCart called without a valid id", item);
+      return;
+    }
     setItems((prev) => {
       const existing = prev.find((i) => i.id === item.id);
       if (existing) {
@@ -95,4 +103,4 @@ export const useCart = () => {
   const ctx = useContext(CartContext);
   if (!ctx) throw new Error("useCart must be used within CartProvider");
   return ctx;
-};  
+};

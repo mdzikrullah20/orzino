@@ -13,6 +13,7 @@ import NewsletterSection from "./NewsletterSection";
 import WhySection from "./WhySection";
 import FAQSection from "./FAQSection";
 import CTASection from "./CTASection";
+import Link from "next/link";
 
 const fruits = [
   {
@@ -133,14 +134,14 @@ const HomePage = () => {
               Enjoy healthy and hygienic fruit cups prepared daily with fresh seasonal fruits.
             </p>
             <div className="mt-7 flex flex-wrap gap-4">
-              <button
-  onClick={() => document.getElementById("featured-products")?.scrollIntoView({ behavior: "smooth" })}
+<Link
+  href="/products"
   className="cursor-pointer bg-[#40916C] text-white px-8 py-3 rounded-full font-medium hover:bg-[#1B4332] transition-colors duration-300"
 >
   Order Now
-</button>
+</Link>
               <button
-                onClick={() => router.push("/track-order")}
+                onClick={() => router.push("/orders")}
                 className="cursor-pointer border-2 border-[#1B4332] text-[#1B4332] px-8 py-3 rounded-full font-medium hover:bg-[#1B4332] hover:text-white transition-colors duration-300"
               >
                 Track Order

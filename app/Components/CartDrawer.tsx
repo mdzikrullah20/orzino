@@ -57,7 +57,7 @@ const CartDrawer = () => {
                       >
                         <Minus size={12} className="text-black" />
                       </button>
-                      <span className="text-sm w-4 text-center">{item.quantity}</span>
+                      <span className="text-sm w-4 text-center text-gray-800">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
                         className="cursor-pointer w-6 h-6 rounded-full border border-gray-700 flex items-center justify-center hover:bg-gray-200"
