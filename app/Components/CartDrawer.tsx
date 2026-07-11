@@ -31,7 +31,7 @@ const CartDrawer = () => {
             <ShoppingBag size={20} />
             Your Cart {totalItems > 0 && `(${totalItems})`}
           </h3>
-          <button onClick={closeDrawer} className="text-gray-400 hover:text-[#1A1A1A] transition-colors">
+          <button onClick={closeDrawer} className="cursor-pointer text-gray-400 hover:text-[#1A1A1A] transition-colors">
             <X size={22} />
           </button>
         </div>
@@ -66,8 +66,8 @@ const CartDrawer = () => {
                       </button>
                     </div>
                   </div>
-                  <button onClick={() => removeFromCart(item.id)} className="text-gray-300 hover:text-[#F4623A] transition-colors">
-                    <Trash2 size={16} />
+                  <button onClick={() => removeFromCart(item.id)} className=" cursor-pointer text-gray-300 hover:text-[#F4623A] transition-colors">
+                    <Trash2 size={16} className="text-red-700" />
                   </button>
                 </div>
               ))}

@@ -1,9 +1,18 @@
+"use client";
+import React from "react";
+import { Star, Check } from "lucide-react";
+import { useReveal } from "../Hooks";
 import { useCart } from "./CartContext";
-import { Star, Truck, Clock, Users, Check } from "lucide-react";
 
-// ...
+export type Fruit = {
+  name: string;
+  image: string;
+  price: string;
+  rating: number;
+  tag: string | null;
+};
 
-const FruitCard = ({ fruit, delay }: { fruit: (typeof fruits)[number]; delay: number }) => {
+const FruitCard = ({ fruit, delay }: { fruit: Fruit; delay: number }) => {
   const { ref, visible } = useReveal();
   const { addToCart } = useCart();
   const [added, setAdded] = React.useState(false);
@@ -64,3 +73,5 @@ const FruitCard = ({ fruit, delay }: { fruit: (typeof fruits)[number]; delay: nu
     </div>
   );
 };
+
+export default FruitCard;
