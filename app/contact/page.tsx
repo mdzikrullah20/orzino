@@ -27,7 +27,7 @@ const Contact = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const whatsappNumber = "917360886960";
+    const whatsappNumber = "919572193272";
 
     const text = `
 *New Contact Request*
@@ -69,7 +69,7 @@ ${form.message}
 
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2">
         {/* Contact Information */}
-        <div className="rounded-2xl bg-green-700 p-8 text-white">
+        <div className="rounded-2xl bg-[#1B4332] p-8 text-white">
           <h2 className="mb-6 text-2xl font-bold">
             Get In Touch
           </h2>
@@ -77,7 +77,7 @@ ${form.message}
           <div className="space-y-5">
             <div className="flex items-center gap-4">
               <Phone />
-              <p>+91 7360886960</p>
+              <p>+91 95721 93272</p>
             </div>
 
             <div className="flex items-center gap-4">
@@ -87,7 +87,7 @@ ${form.message}
 
             <div className="flex items-center gap-4">
               <MapPin />
-              <p>Delhi, India</p>
+              <p>Noida, Uttar Pradesh, India</p>
             </div>
 
             <div className="flex items-center gap-4">
@@ -146,7 +146,7 @@ ${form.message}
 
             <button
               type="submit"
-              className="w-full cursor-pointer rounded-lg bg-green-600 py-3 font-semibold text-white transition hover:bg-green-700"
+              className="w-full cursor-pointer rounded-lg bg-[#40916C] py-3 font-semibold text-white transition hover:bg-[#1B4332]"
             >
               Send Message on WhatsApp
             </button>

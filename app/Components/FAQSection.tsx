@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 const faqs = [
-  { q: "Fruit cups kitne fresh hote hain?", a: "Har cup subah cut hota hai aur same-day deliver hota hai — koi overnight storage nahi." },
-  { q: "Delivery mein kitna time lagta hai?", a: "Zyadatar orders 45-60 minutes mein deliver ho jaate hain, area ke hisaab se." },
-  { q: "Kya koi preservative use hota hai?", a: "Bilkul nahi. Sirf fresh cut fruits, koi added sugar ya chemical nahi." },
-  { q: "Refund ya replacement policy kya hai?", a: "Agar quality theek na mile to 24 hours ke andar free replacement ya full refund milta hai." },
+  { q: "How fresh are the freeze-dried fruit snacks?", a: "Every batch is carefully freeze-dried to lock in peak freshness, natural nutrients, and crunch with zero overnight compromises." },
+  { q: "How long does delivery take?", a: "Most orders are delivered within 45-60 minutes, depending on your location." },
+  { q: "Are there any preservatives used?", a: "Absolutely not. Only 100% real freeze-dried fruits with no added sugar, oil, or artificial chemicals." },
+  { q: "What is your refund or replacement policy?", a: "If you are unhappy with the quality, you get a free replacement or full refund within 24 hours." },
 ];
 
 const FAQItem = ({
@@ -21,7 +21,7 @@ const FAQItem = ({
   onClick: () => void;
 }) => (
   <div className="border-b border-gray-200">
-    <button onClick={onClick} className="w-full flex items-center justify-between py-5 text-left">
+    <button onClick={onClick} className="cursor-pointer w-full flex items-center justify-between py-5 text-left">
       <span className="font-medium text-[#1A1A1A]">{q}</span>
       <ChevronDown
         size={20}

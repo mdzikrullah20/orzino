@@ -4,7 +4,7 @@ import React from "react";
 const CTASection = () => {
   return (
     <section className="px-6 py-16">
-      <div className="relative max-w-4xl mx-auto rounded-3xl bg-gradient-to-br from-[#F4623A] to-[#FFB347] px-8 py-14 text-center overflow-hidden">
+      <div className="relative max-w-4xl mx-auto rounded-3xl  bg-[#1B4332]  px-8 py-14 text-center overflow-hidden">
         <div className="absolute -top-8 -left-8 w-28 h-28 rounded-full bg-white/10" />
         <div className="absolute -bottom-10 -right-6 w-36 h-36 rounded-full bg-white/10" />
 

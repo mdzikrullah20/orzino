@@ -1,336 +1,221 @@
 "use client";
+import React, { useState } from "react";
+import { 
+  Package, 
+  ChefHat, 
+  Truck, 
+  CheckCircle2, 
+  ShieldCheck, 
+  Sparkles, 
+  LucideIcon, 
+  Clock, 
+  MapPin, 
+  ExternalLink,
+  PhoneCall,
+  Box
+} from "lucide-react";
 
-import React from "react";
-import { ShoppingCart, Check, X } from "lucide-react";
-import { useCart } from "../Components/CartContext";
+export type OrderStatus = 0 | 1 | 2 | 3;
 
-const products = [
-  {
-    id: 1,
-    name: "Freeze Dried Strawberry Snacks",
-    images: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5Kr2YYfOAwYXe5QA9HFO9LXfkJ81yH8FIX6GIdd9ZXA&s=10  ",
-      "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRnGKA0oVVlF9wTPR5Uwfwf-yFNIv4IfahqyelqiUNB8gJfDXEUrYhwOImYFbb38U5yGLOFgfbRmEtryoqUaMmGqtymb1ejGgzpLxvoO6LAC9CAF_w9c0jxe0U",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTujD-yCLzSwsHkNFIg7RTtVLU_JTznFhsR2LWa4EEEIg&s=10",
-    ],
-    price: "₹260",
-    description:
-      "Premium freeze dried strawberry snacks made from fresh strawberries with natural sweetness and crunchy texture.",
-    details:
-      "Bonvie Freeze Dried Strawberry Snacks are prepared using advanced freeze drying technology. This process removes moisture while keeping the original taste, colour and nutrients of strawberries.",
-    weight: "40G Pack",
-    benefits: [
-      "100% Natural",
-      "No Added Sugar",
-      "Palm Oil Free",
-      "Gluten Free",
-    ],
-    ingredients: "Fresh Strawberry",
-  },
-  {
-    id: 2,
-    name: "Freeze Dried Mango Snacks",
-    images: [
-       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzbKOyhNf78ZBWydhRIlSrVWCiW5leFUYpylQYE261qg&s=10",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR28R-stp8laoYvTPKYlRlUgerf8NAaN1ahkCRx5QogHg&s",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0P_Pn1G8J1ZMKj0LeFIOZVNYSd2MVTE-_WrzMuIQ1PQ&s=10",
-    ],
-    price: "₹149",
-    description: "Sweet crunchy mango slices made from fresh premium mangoes.",
-    details:
-      "Freeze dried mango keeps the natural flavour and aroma of fresh mango while giving a crispy snack experience.",
-    weight: "50G Pack",
-    benefits: [
-      "Rich in Vitamin A",
-      "No Preservatives",
-      "Healthy Snack",
-      "Natural Energy",
-    ],
-    ingredients: "Fresh Mango",
-  },
-  {
-    id: 3,
-    name: "Freeze Dried Banana Snacks",
-    images: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTtSAzp3stSD7jf8hMM4X0F0fcDxHos1MBbPgD5-_NPQ&s=10",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTb-xbch3Os38gi5IgWeQVJ63BcsvdhC0WNiU3LSP9jvw&s=10",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXlqjkhBngA5g1acZBsow0WsIr-35_DyMSeeZJBBRG0A&s=10",
-    ],
-    price: "₹150",
-    description: "Crunchy banana chips prepared without frying.",
-    details:
-      "Made from fresh bananas using freeze drying technology to preserve nutrients.",
-    weight: "60G Pack",
-    benefits: [
-      "High Potassium",
-      "No Oil",
-      "Healthy Alternative",
-      "Travel Friendly",
-    ],
-    ingredients: "Fresh Banana",
-  },
-  {
-  id: 4,
-  name: "Freeze Dried Pineapple Snacks",
-  images: [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe3o8o8R0srcL1Xj1JLAWQyfAOaVcnTBvKBd2hEljhiw&s=10",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOcqy3h-y5R77i9b7CM9OB80OsDVVJxk3WWh1rkAtBaQ&s=10",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFmApOL7DpNpMa4JKAoiTcVwjYc8_a2fRhuKmViQ-AVg&s=10",
-  ],
-  price: "₹159",
-  description:
-    "Tangy and sweet freeze dried pineapple pieces with a crunchy texture and tropical flavour.",
-  details:
-    "Freeze dried pineapple is made from fresh ripe pineapples. The process preserves its natural flavour, colour and nutrients while creating a lightweight crunchy snack.",
-  weight: "50G Pack",
-  benefits: [
-    "Rich in Vitamin C",
-    "Supports Digestion",
-    "No Added Sugar",
-    "100% Natural",
-  ],
-  ingredients: "Fresh Pineapple",
-},
+interface StepItem {
+  label: string;
+  icon: LucideIcon;
+  desc: string;
+  timeEst?: string;
+}
 
-
-{
-  id: 5,
-  name: "Freeze Dried Apple Rings",
-  images: [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBGyKns-vGlegCwDABoiEtFBXBkbPj6cT8COQWvuJQoQ&s=10",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5MskcmMDQwlEwAntlKlKj2GtexzEbizEaEGQevBqFjA&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6XWbQvpaEv5ywYJfMH6TSADkhXsbYJZ8bOW2ImJ4EEQ&s=10",
-  ],
-  price: "₹139",
-  description:
-    "Crispy apple rings made from fresh apples, perfect as a healthy snack.",
-  details:
-    "Premium freeze dried apple rings maintain the natural sweetness and crunch of fresh apples without frying or preservatives.",
-  weight: "50G Pack",
-  benefits: [
-    "High Fibre",
-    "Low Fat Snack",
-    "No Preservatives",
-    "Rich in Antioxidants",
-  ],
-  ingredients: "Fresh Apple",
-},
-
-
-{
-  id: 6,
-  name: "Freeze Dried Mixed Berry Snacks",
-  images: [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKj7mMd92-KrMceAjedlTqZbsmRHaXnxGkFer-24v4HA&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXDmhbiX8oMKu2reZp3TwqrzYmgUdJuenfGqoBC1Byug&s=10",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEelnN4dVjXM5K0mLu-NnVAQCmtRlgz82vGkV3dupZLA&s=10",
-  ],
-  price: "₹249",
-  description:
-    "A premium mix of strawberry, blueberry and raspberry freeze dried fruits.",
-  details:
-    "Mixed berry freeze dried snacks combine multiple fruits to deliver rich flavour, vibrant colour and powerful nutrients in every bite.",
-  weight: "100G Pack",
-  benefits: [
-    "Antioxidant Rich",
-    "Vitamin C Source",
-    "No Artificial Flavour",
-    "Healthy Daily Snack",
-  ],
-  ingredients:
-    "Strawberry, Blueberry, Raspberry",
-},
+const steps: StepItem[] = [
+  { label: "Order Placed", icon: Package, desc: "Securely verified & registered", timeEst: "10:30 AM" },
+  { label: "Preparing", icon: ChefHat, desc: "Vacuum freeze-drying & vacuum sealing", timeEst: "11:45 AM" },
+  { label: "Out for Delivery", icon: Truck, desc: "Handed over to express courier", timeEst: "Expected 2:00 PM" },
+  { label: "Delivered", icon: CheckCircle2, desc: "Delivered to your doorstep", timeEst: "Pending" },
 ];
 
-const ProductCard = ({ product }: { product: (typeof products)[number] }) => {
-  const { addToCart } = useCart();
-  const [added, setAdded] = React.useState(false);
-  const [hover, setHover] = React.useState(0);
-  const [open, setOpen] = React.useState(false);
-  const [mainImage, setMainImage] = React.useState(product.images[0]);
+const OrderTracker = ({ currentStep: initialStep = 1 }: { currentStep?: OrderStatus }) => {
+  const [currentStep, setCurrentStep] = useState<OrderStatus>(initialStep);
+  const [showDetails, setShowDetails] = useState(false);
 
-  const handleAdd = () => {
-    addToCart({
-      id: String(product.id),
-      name: product.name,
-      price: Number(product.price.replace("₹", "")),
-      image: product.images[0],
-    });
-
-    setAdded(true);
-    setTimeout(() => {
-      setAdded(false);
-    }, 1500);
-  };
+  const progressPercent = (currentStep / (steps.length - 1)) * 100;
 
   return (
-    <>
-      <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition flex flex-col h-full">
-        <div className="w-full h-48 sm:h-56 md:h-60 overflow-hidden relative">
-          <img
-            src={product.images[hover]}
-            alt={product.name}
-            onMouseEnter={() => setHover(1)}
-            onMouseLeave={() => setHover(0)}
-            onClick={() => {
-              setMainImage(product.images[0]);
-              setOpen(true);
-            }}
-            className="w-full h-full object-cover cursor-pointer transition duration-300"
-          />
+    <div className="w-full max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(27,67,50,0.07)] border border-emerald-900/5 relative overflow-hidden">
+      
+      {/* Dynamic Background Glass Orbs */}
+      <div className="absolute -top-24 -right-24 w-72 h-72 bg-gradient-to-br from-[#40916C]/15 to-[#52b788]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-gradient-to-tr from-[#F4623A]/15 to-[#ffb703]/5 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Top Header Section */}
+      <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-gray-100">
+        <div>
+          <div className="inline-flex items-center gap-2 bg-[#40916C]/10 text-[#40916C] px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-3 shadow-xs">
+            <Sparkles size={14} className="animate-spin" style={{ animationDuration: "4s" }} /> Orzino Live Tracking
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1B4332] tracking-tight">
+            Order #ORZ-84920
+          </h2>
+          <p className="text-sm text-gray-500 mt-1 flex items-center gap-2">
+            <Clock size={14} className="text-[#40916C]" /> Estimated delivery today by <span className="font-semibold text-gray-700">4:30 PM</span>
+          </p>
         </div>
 
-        <div className="p-4 sm:p-5 flex flex-col flex-grow justify-between">
-          <div>
-            <h2 className="text-lg sm:text-xl font-bold text-gray-800 line-clamp-2">
-              {product.name}
-            </h2>
-            <p className="text-sm sm:text-base text-gray-600 mt-2 line-clamp-3">
-              {product.description}
-            </p>
+        {/* Quick Demo Controls to test states interactively */}
+        <div className="flex items-center gap-1.5 bg-gray-50 p-1.5 rounded-2xl border border-gray-200/60 self-start md:self-auto">
+          <span className="text-[11px] font-bold text-gray-400 px-2 uppercase tracking-wider">State:</span>
+          {[0, 1, 2, 3].map((stepIdx) => (
+            <button
+              key={stepIdx}
+              onClick={() => setCurrentStep(stepIdx as OrderStatus)}
+              className={`w-7 h-7 rounded-xl text-xs font-bold transition-all ${
+                currentStep === stepIdx
+                  ? "bg-[#1B4332] text-white shadow-sm scale-105"
+                  : "text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {stepIdx + 1}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Stepper Main Body */}
+      <div className="relative z-10 py-2">
+        {/* Desktop Horizontal Stepper */}
+        <div className="hidden sm:block relative">
+          {/* Background Track Line */}
+          <div className="absolute top-6 left-8 right-8 h-2 bg-gray-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-[#40916C] via-[#52b788] to-[#2d6a4f] rounded-full transition-all duration-700 ease-out shadow-sm"
+              style={{ width: `${progressPercent}%` }}
+            />
           </div>
 
-          <div className="flex justify-between items-center mt-4 sm:mt-5 pt-2">
-            <span className="text-lg sm:text-xl font-bold text-gray-900">
-              {product.price}
-            </span>
+          <div className="relative flex justify-between">
+            {steps.map((step, i) => {
+              const Icon = step.icon;
+              const done = i < currentStep;
+              const active = i === currentStep;
+              
+              return (
+                <div key={step.label} className="flex flex-col items-center w-1/4 text-center group">
+                  <div
+                    className={`w-12 h-12 rounded-2xl flex items-center justify-center border-2 transition-all duration-500 shadow-md transform ${
+                      done || active
+                        ? "bg-[#40916C] border-[#40916C] text-white shadow-[#40916C]/30 scale-105"
+                        : "bg-white border-gray-200 text-gray-400"
+                    } ${active ? "ring-8 ring-[#40916C]/15 animate-bounce" : ""}`}
+                  >
+                    <Icon size={22} className="transition-transform duration-300 group-hover:scale-110" />
+                  </div>
+                  <p className={`mt-3 text-sm font-bold tracking-tight ${done || active ? "text-[#1B4332]" : "text-gray-400"}`}>
+                    {step.label}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1 max-w-[130px] font-medium leading-relaxed">
+                    {step.desc}
+                  </p>
+                  <span className="text-[10px] font-semibold text-[#40916C] bg-[#40916C]/10 px-2 py-0.5 rounded-md mt-2">
+                    {step.timeEst}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
-            <button
-              onClick={handleAdd}
-              className="bg-orange-600 text-white px-3 py-2 sm:px-4 rounded-lg flex gap-2 items-center hover:bg-orange-700 transition text-sm sm:text-base font-medium"
-            >
-              {added ? (
-                <>
-                  <Check size={18} />
-                  Added
-                </>
-              ) : (
-                <>
-                  <ShoppingCart size={18} />
-                  Add
-                </>
-              )}
-            </button>
+        {/* Mobile Vertical Stepper */}
+        <div className="sm:hidden relative pl-6">
+          <div className="absolute left-[1.35rem] top-4 bottom-4 w-2 bg-gray-100 rounded-full overflow-hidden">
+            <div
+              className="w-full bg-gradient-to-b from-[#40916C] to-[#2d6a4f] rounded-full transition-all duration-700 ease-out"
+              style={{ height: `${progressPercent}%` }}
+            />
+          </div>
+          <div className="flex flex-col gap-8">
+            {steps.map((step, i) => {
+              const Icon = step.icon;
+              const done = i < currentStep;
+              const active = i === currentStep;
+              return (
+                <div key={step.label} className="flex items-start gap-4 relative">
+                  <div
+                    className={`w-10 h-10 shrink-0 rounded-2xl flex items-center justify-center border-2 z-10 transition-all duration-500 shadow-md ${
+                      done || active
+                        ? "bg-[#40916C] border-[#40916C] text-white shadow-[#40916C]/30"
+                        : "bg-white border-gray-200 text-gray-400"
+                    } ${active ? "ring-8 ring-[#40916C]/15" : ""}`}
+                  >
+                    <Icon size={18} />
+                  </div>
+                  <div className="pt-0.5">
+                    <div className="flex items-center gap-2">
+                      <p className={`font-bold text-base tracking-tight ${done || active ? "text-[#1B4332]" : "text-gray-400"}`}>
+                        {step.label}
+                      </p>
+                      <span className="text-[10px] font-semibold text-[#40916C] bg-[#40916C]/10 px-2 py-0.5 rounded-md">
+                        {step.timeEst}
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1 font-medium">{step.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
 
-      {/* PRODUCT DETAILS MODAL */}
-      {open && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 overflow-y-auto backdrop-blur-sm">
-          <div className="bg-white rounded-2xl max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-6 p-5 sm:p-8 relative my-auto max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setOpen(false)}
-              className="absolute right-4 top-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 z-10 transition"
-            >
-              <X size={20} />
-            </button>
-
-            {/* LEFT IMAGE COLUMN */}
-            <div className="flex flex-col gap-4">
-              <div className="w-full h-64 sm:h-80 md:h-[400px] rounded-xl overflow-hidden bg-gray-50">
-                <img
-                  src={mainImage}
-                  alt={product.name}
-                  className="w-full h-full object-contain md:object-cover"
-                />
-              </div>
-
-              <div className="flex gap-2 sm:gap-4 overflow-x-auto pb-1 snap-x scrollbar-thin">
-                {product.images.map((img, index) => (
-                  <img
-                    key={index}
-                    src={img}
-                    onClick={() => setMainImage(img)}
-                    className={`w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover cursor-pointer border-2 transition-all flex-shrink-0 snap-start ${
-                      mainImage === img ? "border-green-600 scale-95" : "border-transparent hover:border-green-500"
-                    }`}
-                  />
-                ))}
-              </div>
+      {/* Expandable Order Information Box */}
+      <div className="mt-10 bg-gradient-to-r from-gray-50 to-[#FFF8ED]/50 rounded-2xl p-4 sm:p-5 border border-gray-100">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#F4623A] flex items-center justify-center font-bold">
+              <Box size={20} />
             </div>
+            <div>
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Package Contents</p>
+              <p className="text-sm font-bold text-[#1B4332]">2x Freeze-Dried Strawberries, 1x Mango Crunch (45G)</p>
+            </div>
+          </div>
+          
+          <button
+            onClick={() => setShowDetails(!showDetails)}
+            className="text-xs font-bold text-[#40916C] hover:text-[#1B4332] bg-white px-4 py-2 rounded-xl shadow-xs border border-gray-200/60 transition w-full sm:w-auto text-center"
+          >
+            {showDetails ? "Hide Delivery Info" : "View Delivery Address"}
+          </button>
+        </div>
 
-            {/* RIGHT DETAILS COLUMN */}
-            <div className="flex flex-col justify-between h-full pt-2 md:pt-0">
+        {showDetails && (
+          <div className="mt-4 pt-4 border-t border-gray-200/60 grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fadeIn text-xs sm:text-sm text-gray-600">
+            <div className="flex items-start gap-2">
+              <MapPin size={16} className="text-[#F4623A] shrink-0 mt-0.5" />
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 pr-8">
-                  {product.name}
-                </h1>
-
-                <h2 className="text-xl sm:text-2xl font-bold mt-2 sm:mt-3 text-green-700">
-                  {product.price}
-                </h2>
-
-                <p className="mt-4 text-sm sm:text-base text-gray-600">
-                  {product.description}
-                </p>
-
-                <div className="mt-4 sm:mt-5">
-                  <h3 className="font-bold text-lg sm:text-xl text-gray-800">
-                    Product Details
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-600 mt-1">
-                    {product.details}
-                  </p>
-                </div>
-
-                <div className="mt-4 space-y-1 text-sm sm:text-base text-gray-700">
-                  <p>
-                    <b className="font-semibold text-gray-900">Weight:</b> {product.weight}
-                  </p>
-                  <p>
-                    <b className="font-semibold text-gray-900">Ingredients:</b> {product.ingredients}
-                  </p>
-                </div>
-
-                <h3 className="font-bold text-lg sm:text-xl mt-4 sm:mt-5 text-gray-800">
-                  Benefits
-                </h3>
-
-                <ul className="mt-2 grid grid-cols-2 gap-1 sm:gap-2">
-                  {product.benefits.map((item, index) => (
-                    <li
-                      key={index}
-                      className="text-sm sm:text-base text-green-700 flex items-center gap-1"
-                    >
-                      <span className="text-xs">✓</span> {item}
-                    </li>
-                  ))}
-                </ul>
+                <p className="font-bold text-[#1B4332]">Delivery Address:</p>
+                <p className="mt-0.5">Flat 402, Green Meadows Apartment, Jubilee Hills, Hyderabad - 500033</p>
               </div>
-
-              <button
-                onClick={handleAdd}
-                className="mt-6 w-full bg-green-700 text-white py-3 rounded-lg flex justify-center items-center gap-2 hover:bg-green-800 transition font-medium text-sm sm:text-base shadow-sm"
-              >
-                <ShoppingCart size={20} />
-                Add To Cart
-              </button>
+            </div>
+            <div className="flex items-start gap-2">
+              <PhoneCall size={16} className="text-[#40916C] shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold text-[#1B4332]">Courier Partner:</p>
+                <p className="mt-0.5">ExpressDelite (Tracking ID: DX-994821)</p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </>
-  );
-};
-
-export default function Products() {
-  return (
-    <div className="bg-gray-50 min-h-screen px-4 sm:px-6 py-8 sm:py-12">
-      <div className="text-center mb-8 sm:mb-12 max-w-2xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl font-bold text-green-700 tracking-tight">
-          Our Freeze Dried Fruits
-        </h1>
-        <p className="text-sm sm:text-base text-gray-600 mt-2 sm:mt-3">
-          Healthy crunchy fruit snacks with natural taste.
-        </p>
+        )}
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+      {/* Trust Footer Banner */}
+      <div className="mt-6 pt-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs sm:text-sm text-gray-500">
+        <div className="flex items-center gap-2 font-semibold text-[#1B4332]">
+          <ShieldCheck size={18} className="text-[#40916C]" />
+          <span>Orzino Quality Inspection Passed & Vacuum Sealed</span>
+        </div>
+        <a href="#support" className="text-[#F4623A] font-bold hover:underline flex items-center gap-1">
+          Need Help? <ExternalLink size={12} />
+        </a>
       </div>
     </div>
   );
-}
+};
+
+export default OrderTracker;
