@@ -1,10 +1,6 @@
 "use client";
 
-import React, {
-  useState,
-  ChangeEvent,
-  FormEvent,
-} from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
 const Contact = () => {
@@ -29,16 +25,14 @@ const Contact = () => {
 
     const whatsappNumber = "919572193272";
 
-    const text = `
-*New Contact Request*
+    const text = `*New Contact Request*
 
 👤 Name: ${form.name}
 📧 Email: ${form.email}
 📱 Phone: ${form.phone}
 
 📝 Message:
-${form.message}
-`;
+${form.message}`;
 
     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
       text
@@ -58,10 +52,8 @@ ${form.message}
   return (
     <div className="min-h-screen bg-green-50 px-6 py-12">
       {/* Header */}
-      <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold text-green-700">
-          Contact Us
-        </h1>
+      <div className="mb-10 text-center">
+        <h1 className="text-4xl font-bold text-green-700">Contact Us</h1>
         <p className="mt-3 text-gray-600">
           Have questions? We are happy to help you.
         </p>
@@ -70,9 +62,7 @@ ${form.message}
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2">
         {/* Contact Information */}
         <div className="rounded-2xl bg-[#1B4332] p-8 text-white">
-          <h2 className="mb-6 text-2xl font-bold">
-            Get In Touch
-          </h2>
+          <h2 className="mb-6 text-2xl font-bold">Get In Touch</h2>
 
           <div className="space-y-5">
             <div className="flex items-center gap-4">

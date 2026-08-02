@@ -1,221 +1,363 @@
 "use client";
-import React, { useState } from "react";
-import { 
-  Package, 
-  ChefHat, 
-  Truck, 
-  CheckCircle2, 
-  ShieldCheck, 
-  Sparkles, 
-  LucideIcon, 
-  Clock, 
-  MapPin, 
-  ExternalLink,
-  PhoneCall,
-  Box
+
+import React, { useMemo, useState } from "react";
+import {
+  Search,
+  ShoppingCart,
+  Heart,
+  Star,
+  Sparkles,
+  Filter,
+  ArrowLeft,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
-export type OrderStatus = 0 | 1 | 2 | 3;
+type Product = {
+  id: number;
+  name: string;
+  category: string;
+  image: string;
+  price: number;
+  oldPrice?: number;
+  rating: number;
+  weight: string;
+  badge?: string;
+};
 
-interface StepItem {
-  label: string;
-  icon: LucideIcon;
-  desc: string;
-  timeEst?: string;
-}
-
-const steps: StepItem[] = [
-  { label: "Order Placed", icon: Package, desc: "Securely verified & registered", timeEst: "10:30 AM" },
-  { label: "Preparing", icon: ChefHat, desc: "Vacuum freeze-drying & vacuum sealing", timeEst: "11:45 AM" },
-  { label: "Out for Delivery", icon: Truck, desc: "Handed over to express courier", timeEst: "Expected 2:00 PM" },
-  { label: "Delivered", icon: CheckCircle2, desc: "Delivered to your doorstep", timeEst: "Pending" },
+// 🍓 12 ORZINO Freeze-Dried Fruit Products
+const products: Product[] = [
+  {
+    id: 1,
+    name: "Freeze-Dried Jamun Cubes",
+    category: "Fruit Cubes",
+    image:
+      "https://themoonstore.in/cdn/shop/files/74_1d11451c-e5c5-436f-8063-4d1777528de8.png?v=1783330410&width=540",
+    price: 99,
+    oldPrice: 129,
+    rating: 4.9,
+    weight: "35g",
+    badge: "Best Seller",
+  },
+  {
+    id: 2,
+    name: "Crispy Alphonso Mango Slices",
+    category: "Crispy Slices",
+    image: "https://orzino.com/wp-content/uploads/2026/05/MANGO-SNACKS.jpeg",
+    price: 99,
+    rating: 4.8,
+    weight: "40g",
+    badge: "Popular",
+  },
+  {
+    id: 3,
+    name: "Berry Mix Crunch Jar",
+    category: "Jars",
+    image:
+      "https://themoonstore.in/cdn/shop/files/73.png?v=1783330409&width=540",
+    price: 149,
+    oldPrice: 189,
+    rating: 4.9,
+    weight: "50g",
+    badge: "Trending",
+  },
+  {
+    id: 4,
+    name: "Strawberry Crunch Pouch",
+    category: "Pouches",
+    image:
+      "https://themoonstore.in/cdn/shop/files/PREKSHA_-web_content_1000_by_1200_1.png?v=1782990986&width=540",
+    price: 79,
+    oldPrice: 99,
+    rating: 4.7,
+    weight: "30g",
+  },
+  {
+    id: 5,
+    name: "Freeze-Dried Blueberry Bites",
+    category: "Fruit Cubes",
+    image:
+      "https://themoonstore.in/cdn/shop/files/70_d0bd2cdb-5e24-4f7e-82d8-7bd548014028.png?v=1783330409&width=800",
+    price: 119,
+    rating: 4.8,
+    weight: "35g",
+    badge: "New",
+  },
+  {
+    id: 6,
+    name: "Crispy Pineapple Rings",
+    category: "Crispy Slices",
+    image:
+      "https://themoonstore.in/cdn/shop/files/58.png?v=1782990977&width=800",
+    price: 89,
+    oldPrice: 109,
+    rating: 4.6,
+    weight: "45g",
+  },
+  {
+    id: 7,
+    name: "Pink Guava Crunch Pouch",
+    category: "Pouches",
+    image:
+      "https://themoonstore.in/cdn/shop/files/PREKSHA_-web_content_1000_by_1200_1.png?v=1782990986&width=540",
+    price: 89,
+    rating: 4.7,
+    weight: "40g",
+  },
+  {
+    id: 8,
+    name: "Freeze-Dried Kiwi Slices",
+    category: "Crispy Slices",
+    image:
+      "https://themoonstore.in/cdn/shop/files/74_1d11451c-e5c5-436f-8063-4d1777528de8.png?v=1783330410&width=540",
+    price: 109,
+    rating: 4.8,
+    weight: "30g",
+  },
+  {
+    id: 9,
+    name: "Assorted Fruit Combo Box",
+    category: "Combos",
+    image: "https://orzino.com/wp-content/uploads/2026/05/MANGO-SNACKS.jpeg",
+    price: 249,
+    oldPrice: 299,
+    rating: 5.0,
+    weight: "150g",
+    badge: "Value Pack",
+  },
+  {
+    id: 10,
+    name: "Crunchy Banana Chips",
+    category: "Snacks",
+    image:
+      "https://themoonstore.in/cdn/shop/files/73.png?v=1783330409&width=540",
+    price: 69,
+    rating: 4.5,
+    weight: "50g",
+  },
+  {
+    id: 11,
+    name: "Freeze-Dried Dragonfruit Cubes",
+    category: "Fruit Cubes",
+    image:
+      "https://themoonstore.in/cdn/shop/files/70_d0bd2cdb-5e24-4f7e-82d8-7bd548014028.png?v=1783330409&width=800",
+    price: 129,
+    rating: 4.9,
+    weight: "35g",
+    badge: "Exotic",
+  },
+  {
+    id: 12,
+    name: "Pomegranate Seeds Crunch Jar",
+    category: "Jars",
+    image:
+      "https://themoonstore.in/cdn/shop/files/58.png?v=1782990977&width=800",
+    price: 139,
+    oldPrice: 169,
+    rating: 4.7,
+    weight: "45g",
+  },
 ];
 
-const OrderTracker = ({ currentStep: initialStep = 1 }: { currentStep?: OrderStatus }) => {
-  const [currentStep, setCurrentStep] = useState<OrderStatus>(initialStep);
-  const [showDetails, setShowDetails] = useState(false);
+const categories = [
+  "All",
+  "Fruit Cubes",
+  "Crispy Slices",
+  "Jars",
+  "Pouches",
+  "Combos",
+];
 
-  const progressPercent = (currentStep / (steps.length - 1)) * 100;
+export default function ProductsPage() {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [search, setSearch] = useState("");
+  const [wishlist, setWishlist] = useState<number[]>([]);
+
+  const toggleWishlist = (id: number) => {
+    setWishlist((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      const categoryMatch =
+        selectedCategory === "All" ||
+        product.category === selectedCategory;
+
+      const searchMatch = product.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      return categoryMatch && searchMatch;
+    });
+  }, [selectedCategory, search]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(27,67,50,0.07)] border border-emerald-900/5 relative overflow-hidden">
+    <div className="min-h-screen bg-[#E5E9EE] select-none">
       
-      {/* Dynamic Background Glass Orbs */}
-      <div className="absolute -top-24 -right-24 w-72 h-72 bg-gradient-to-br from-[#40916C]/15 to-[#52b788]/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-gradient-to-tr from-[#F4623A]/15 to-[#ffb703]/5 rounded-full blur-3xl pointer-events-none" />
-
-      {/* Top Header Section */}
-      <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-gray-100">
-        <div>
-          <div className="inline-flex items-center gap-2 bg-[#40916C]/10 text-[#40916C] px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-3 shadow-xs">
-            <Sparkles size={14} className="animate-spin" style={{ animationDuration: "4s" }} /> Orzino Live Tracking
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1B4332] tracking-tight">
-            Order #ORZ-84920
-          </h2>
-          <p className="text-sm text-gray-500 mt-1 flex items-center gap-2">
-            <Clock size={14} className="text-[#40916C]" /> Estimated delivery today by <span className="font-semibold text-gray-700">4:30 PM</span>
-          </p>
+      {/* Navigation Top Bar */}
+      {/* <div className="bg-gray-500 text-white py-3.5 px-6 sticky top-0 z-40 shadow-md">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white hover:underline"
+          >
+            <ArrowLeft size={16} /> Back to Home
+          </Link>
+          <span className="font-mono text-xs font-bold text-gray-300 hidden sm:inline">
+            FREE SHIPPING ON ORDERS OVER RS. 499 🚀
+          </span>
         </div>
+      </div> */}
 
-        {/* Quick Demo Controls to test states interactively */}
-        <div className="flex items-center gap-1.5 bg-gray-50 p-1.5 rounded-2xl border border-gray-200/60 self-start md:self-auto">
-          <span className="text-[11px] font-bold text-gray-400 px-2 uppercase tracking-wider">State:</span>
-          {[0, 1, 2, 3].map((stepIdx) => (
+
+      {/* Categories & Product Grid */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+        
+        {/* Category Filters Bar */}
+        <div className="flex items-center gap-3 mb-10 overflow-x-auto pb-2 scrollbar-none">
+          <div className="flex items-center gap-2 font-black text-xs uppercase tracking-wider text-[#181410] shrink-0 mr-2">
+            <Filter size={16} className="text-[#E8115B]" />
+            Filter By:
+          </div>
+
+          {categories.map((cat) => (
             <button
-              key={stepIdx}
-              onClick={() => setCurrentStep(stepIdx as OrderStatus)}
-              className={`w-7 h-7 rounded-xl text-xs font-bold transition-all ${
-                currentStep === stepIdx
-                  ? "bg-[#1B4332] text-white shadow-sm scale-105"
-                  : "text-gray-600 hover:bg-gray-200"
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-5 py-2.5 rounded-full font-extrabold text-xs uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer ${
+                selectedCategory === cat
+                  ? "bg-[#181410] text-[#FFC300] shadow-lg scale-105"
+                  : "bg-white border-2 border-gray-200 text-[#181410] hover:bg-[#FFC300]"
               }`}
             >
-              {stepIdx + 1}
+              {cat}
             </button>
           ))}
         </div>
-      </div>
 
-      {/* Stepper Main Body */}
-      <div className="relative z-10 py-2">
-        {/* Desktop Horizontal Stepper */}
-        <div className="hidden sm:block relative">
-          {/* Background Track Line */}
-          <div className="absolute top-6 left-8 right-8 h-2 bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-[#40916C] via-[#52b788] to-[#2d6a4f] rounded-full transition-all duration-700 ease-out shadow-sm"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
+        {/* Products Grid */}
+        {filteredProducts.length > 0 ? (
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-20">
+            {filteredProducts.map((product) => (
+              <motion.div
+                key={product.id}
+                whileHover={{ y: -6 }}
+                className="group bg-white rounded-[24px] shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 border-gray-100 flex flex-col justify-between"
+              >
+                {/* Image & Badges */}
+                <div className="relative bg-[#F8F9FA] p-6 flex items-center justify-center overflow-hidden border-b border-gray-100 h-[220px]">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={200}
+                    height={200}
+                    unoptimized
+                    className="object-contain h-[160px] group-hover:scale-110 transition-transform duration-500"
+                  />
 
-          <div className="relative flex justify-between">
-            {steps.map((step, i) => {
-              const Icon = step.icon;
-              const done = i < currentStep;
-              const active = i === currentStep;
-              
-              return (
-                <div key={step.label} className="flex flex-col items-center w-1/4 text-center group">
-                  <div
-                    className={`w-12 h-12 rounded-2xl flex items-center justify-center border-2 transition-all duration-500 shadow-md transform ${
-                      done || active
-                        ? "bg-[#40916C] border-[#40916C] text-white shadow-[#40916C]/30 scale-105"
-                        : "bg-white border-gray-200 text-gray-400"
-                    } ${active ? "ring-8 ring-[#40916C]/15 animate-bounce" : ""}`}
+                  {/* Badge */}
+                  {product.badge && (
+                    <div className="absolute top-3 left-3 bg-[#E8115B] text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-md">
+                      {product.badge}
+                    </div>
+                  )}
+
+                  {/* Wishlist Button */}
+                  <button
+                    onClick={() => toggleWishlist(product.id)}
+                    className="absolute top-3 right-3 w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-md hover:scale-110 transition-transform cursor-pointer"
                   >
-                    <Icon size={22} className="transition-transform duration-300 group-hover:scale-110" />
-                  </div>
-                  <p className={`mt-3 text-sm font-bold tracking-tight ${done || active ? "text-[#1B4332]" : "text-gray-400"}`}>
-                    {step.label}
-                  </p>
-                  <p className="text-xs text-gray-500 mt-1 max-w-[130px] font-medium leading-relaxed">
-                    {step.desc}
-                  </p>
-                  <span className="text-[10px] font-semibold text-[#40916C] bg-[#40916C]/10 px-2 py-0.5 rounded-md mt-2">
-                    {step.timeEst}
-                  </span>
+                    <Heart
+                      size={18}
+                      className={
+                        wishlist.includes(product.id)
+                          ? "fill-[#E8115B] text-[#E8115B]"
+                          : "text-gray-400"
+                      }
+                    />
+                  </button>
                 </div>
-              );
-            })}
-          </div>
-        </div>
 
-        {/* Mobile Vertical Stepper */}
-        <div className="sm:hidden relative pl-6">
-          <div className="absolute left-[1.35rem] top-4 bottom-4 w-2 bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="w-full bg-gradient-to-b from-[#40916C] to-[#2d6a4f] rounded-full transition-all duration-700 ease-out"
-              style={{ height: `${progressPercent}%` }}
-            />
-          </div>
-          <div className="flex flex-col gap-8">
-            {steps.map((step, i) => {
-              const Icon = step.icon;
-              const done = i < currentStep;
-              const active = i === currentStep;
-              return (
-                <div key={step.label} className="flex items-start gap-4 relative">
-                  <div
-                    className={`w-10 h-10 shrink-0 rounded-2xl flex items-center justify-center border-2 z-10 transition-all duration-500 shadow-md ${
-                      done || active
-                        ? "bg-[#40916C] border-[#40916C] text-white shadow-[#40916C]/30"
-                        : "bg-white border-gray-200 text-gray-400"
-                    } ${active ? "ring-8 ring-[#40916C]/15" : ""}`}
-                  >
-                    <Icon size={18} />
-                  </div>
-                  <div className="pt-0.5">
-                    <div className="flex items-center gap-2">
-                      <p className={`font-bold text-base tracking-tight ${done || active ? "text-[#1B4332]" : "text-gray-400"}`}>
-                        {step.label}
-                      </p>
-                      <span className="text-[10px] font-semibold text-[#40916C] bg-[#40916C]/10 px-2 py-0.5 rounded-md">
-                        {step.timeEst}
+                {/* Card Info */}
+                <div className="p-5 flex flex-col flex-grow justify-between">
+                  <div>
+                    <div className="flex items-center justify-between text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+                      <span className="text-[#E8115B] font-extrabold">
+                        {product.category}
+                      </span>
+                      <span>{product.weight}</span>
+                    </div>
+
+                    <h3 className="text-base font-bold text-[#181410] line-clamp-1 group-hover:text-[#E8115B] transition-colors">
+                      {product.name}
+                    </h3>
+
+                    <div className="flex items-center gap-1.5 mt-2">
+                      <Star
+                        size={15}
+                        fill="#FFC300"
+                        className="text-[#FFC300]"
+                      />
+                      <span className="font-extrabold text-xs text-[#181410]">
+                        {product.rating} / 5.0
                       </span>
                     </div>
-                    <p className="text-xs text-gray-500 mt-1 font-medium">{step.desc}</p>
                   </div>
+
+                  {/* Pricing & Add Button */}
+                  <div className="mt-5 pt-3 border-t border-gray-100 flex flex-col gap-3">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-black text-[#181410] font-mono">
+                        ₹{product.price}
+                      </span>
+                      {product.oldPrice && (
+                        <span className="text-xs font-bold text-gray-400 line-through font-mono">
+                          ₹{product.oldPrice}
+                        </span>
+                      )}
+                    </div>
+
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() =>
+                        alert(`Added ${product.name} (₹${product.price}) to cart!`)
+                      }
+                      className="w-full py-3 rounded-full bg-[#FFC300] hover:bg-yellow-400 text-[#181410] font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md cursor-pointer transition-colors border border-[#181410]/10"
+                    >
+                      <ShoppingCart size={16} />
+                      <span>ADD TO CART</span>
+                    </motion.button>
+                  </div>
+
                 </div>
-              );
-            })}
+              </motion.div>
+            ))}
           </div>
-        </div>
-      </div>
-
-      {/* Expandable Order Information Box */}
-      <div className="mt-10 bg-gradient-to-r from-gray-50 to-[#FFF8ED]/50 rounded-2xl p-4 sm:p-5 border border-gray-100">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#F4623A] flex items-center justify-center font-bold">
-              <Box size={20} />
-            </div>
-            <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Package Contents</p>
-              <p className="text-sm font-bold text-[#1B4332]">2x Freeze-Dried Strawberries, 1x Mango Crunch (45G)</p>
-            </div>
-          </div>
-          
-          <button
-            onClick={() => setShowDetails(!showDetails)}
-            className="text-xs font-bold text-[#40916C] hover:text-[#1B4332] bg-white px-4 py-2 rounded-xl shadow-xs border border-gray-200/60 transition w-full sm:w-auto text-center"
-          >
-            {showDetails ? "Hide Delivery Info" : "View Delivery Address"}
-          </button>
-        </div>
-
-        {showDetails && (
-          <div className="mt-4 pt-4 border-t border-gray-200/60 grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fadeIn text-xs sm:text-sm text-gray-600">
-            <div className="flex items-start gap-2">
-              <MapPin size={16} className="text-[#F4623A] shrink-0 mt-0.5" />
-              <div>
-                <p className="font-bold text-[#1B4332]">Delivery Address:</p>
-                <p className="mt-0.5">Flat 402, Green Meadows Apartment, Jubilee Hills, Hyderabad - 500033</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-2">
-              <PhoneCall size={16} className="text-[#40916C] shrink-0 mt-0.5" />
-              <div>
-                <p className="font-bold text-[#1B4332]">Courier Partner:</p>
-                <p className="mt-0.5">ExpressDelite (Tracking ID: DX-994821)</p>
-              </div>
-            </div>
+        ) : (
+          <div className="text-center py-20 bg-white rounded-[24px] shadow-sm border border-gray-200">
+            <h3 className="text-2xl font-black text-[#181410] uppercase">
+              No snacks found!
+            </h3>
+            <p className="text-gray-500 mt-2 text-sm font-medium">
+              Try searching for another fruit or selecting a different category.
+            </p>
+            <button
+              onClick={() => {
+                setSelectedCategory("All");
+                setSearch("");
+              }}
+              className="mt-5 px-6 py-2.5 bg-[#FFC300] text-[#181410] font-extrabold text-xs uppercase rounded-full shadow-md hover:bg-yellow-400 transition-colors cursor-pointer"
+            >
+              Reset Filters
+            </button>
           </div>
         )}
-      </div>
 
-      {/* Trust Footer Banner */}
-      <div className="mt-6 pt-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs sm:text-sm text-gray-500">
-        <div className="flex items-center gap-2 font-semibold text-[#1B4332]">
-          <ShieldCheck size={18} className="text-[#40916C]" />
-          <span>Orzino Quality Inspection Passed & Vacuum Sealed</span>
-        </div>
-        <a href="#support" className="text-[#F4623A] font-bold hover:underline flex items-center gap-1">
-          Need Help? <ExternalLink size={12} />
-        </a>
-      </div>
+      </section>
     </div>
   );
-};
-
-export default OrderTracker;
+}
