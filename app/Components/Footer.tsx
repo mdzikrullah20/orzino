@@ -48,7 +48,7 @@ const Footer = () => {
             Contact Us
           </h3>
           <p className="text-gray-800">
-            📞 +91 95721 93272
+            📞 +91 8757726925
           </p>
           <p className="text-gray-800">
             ✉ support@freshfruit.com

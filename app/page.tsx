@@ -6,7 +6,6 @@ import RecipesSection from './Components/RecipesSection';
 import SnackingMoodSection from './Components/SnackingMoodSection';
 import BundleBuilderSection from './Components/BundleBuilderSection';
 
-// Official WhatsApp SVG Component
 const WhatsAppIcon = ({ className = "h-8 w-8" }: { className?: string }) => (
   <svg
     className={className}
@@ -19,7 +18,7 @@ const WhatsAppIcon = ({ className = "h-8 w-8" }: { className?: string }) => (
 );
 
 export default function Home() {
-  const whatsappNumber = "919572193272";
+  const whatsappNumber = "918757726925"; 
   const defaultMessage = "Hi, I have a question about your products!";
   const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(defaultMessage)}`;
 
