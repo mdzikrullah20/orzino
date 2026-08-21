@@ -17,30 +17,30 @@ interface Recipe {
 const recipes: Recipe[] = [
   {
     id: 1,
-    title: 'Freeze-Dried Jamun Smoothie',
+    title: 'Pineapple Slices',
     category: 'Freeze Dried Fruit',
-    img: 'https://themoonstore.in/cdn/shop/files/74_1d11451c-e5c5-436f-8063-4d1777528de8.png?v=1783330410&width=540',
+img: './images/pineappleB.jpeg',
     link: '#',
   },
   {
     id: 2,
-    title: 'Crunchy Mango Slice Bowl',
+    title: 'MANGO SLICES',
     category: 'Crispy Slices',
-    img: 'https://orzino.com/wp-content/uploads/2026/05/MANGO-SNACKS.jpeg',
+  img: './images/mango.jpeg',
     link: '#',
   },
   {
     id: 3,
-    title: 'Berry Freeze Yogurt Parfait',
+    title: 'Banana Chips',
     category: 'Fruit Jars',
-    img: 'https://themoonstore.in/cdn/shop/files/73.png?v=1783330409&width=540',
+  img: './images/banana.jpeg',
     link: '#',
   },
   {
     id: 4,
-    title: 'Strawberry Freeze Crunch Roll',
+    title: 'Apple Chips',
     category: 'Fruit Pouches',
-    img: 'https://themoonstore.in/cdn/shop/files/PREKSHA_-web_content_1000_by_1200_1.png?v=1782990986&width=540',
+  img: './images/apple.jpeg',
     link: '#',
   },
 ];
@@ -108,10 +108,10 @@ export default function RecipesSection() {
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="hidden lg:block relative w-[180px] sm:w-[220px] h-[180px] sm:h-[220px] mt-8 lg:mt-12"
+              className="hidden lg:block relative w-[180px] sm:w-[220px] h-[200px] sm:h-[220px] mt-8 lg:mt-12 rounded-lg"
             >
               <Image
-                src="https://themoonstore.in/cdn/shop/files/74_1d11451c-e5c5-436f-8063-4d1777528de8.png?v=1783330410&width=540"
+                src="./images/guava.jpeg"
                 alt="Orzino Freeze Dried Fruit"
                 fill
                 unoptimized

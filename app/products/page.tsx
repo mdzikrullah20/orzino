@@ -61,10 +61,9 @@ const getQuantityDiscountPercent = (qty: number): number => {
 const initialProducts: Product[] = [
   {
     id: 1,
-    name: "Freeze-Dried Jamun Cubes",
+    name: "Pineapple Slices",
     category: "Fruit Cubes",
-    image:
-      "https://themoonstore.in/cdn/shop/files/74_1d11451c-e5c5-436f-8063-4d1777528de8.png?v=1783330410&width=540",
+    image: "./images/pineappleB.jpeg",
     price: 99,
     originalPrice: 149,
     rating: 4.9,
@@ -91,9 +90,9 @@ const initialProducts: Product[] = [
   },
   {
     id: 2,
-    name: "Crispy Alphonso Mango Slices",
+    name: "MANGO SLICES",
     category: "Crispy Slices",
-    image: "https://orzino.com/wp-content/uploads/2026/05/MANGO-SNACKS.jpeg",
+    image: "./images/mango.jpeg",
     price: 99,
     originalPrice: 139,
     rating: 4.8,
@@ -113,10 +112,9 @@ const initialProducts: Product[] = [
   },
   {
     id: 3,
-    name: "Berry Mix Crunch Jar",
+    name: "Banana Chips",
     category: "Jars",
-    image:
-      "https://themoonstore.in/cdn/shop/files/73.png?v=1783330409&width=540",
+    image: "./images/banana.jpeg",
     price: 149,
     originalPrice: 199,
     rating: 4.9,
@@ -136,10 +134,9 @@ const initialProducts: Product[] = [
   },
   {
     id: 4,
-    name: "Strawberry Crunch Pouch",
+    name: "Pineapple Slices",
     category: "Pouches",
-    image:
-      "https://themoonstore.in/cdn/shop/files/PREKSHA_-web_content_1000_by_1200_1.png?v=1782990986&width=540",
+    image: "./images/pineapple.jpeg",
     price: 79,
     originalPrice: 119,
     rating: 4.7,
@@ -149,10 +146,9 @@ const initialProducts: Product[] = [
   },
   {
     id: 5,
-    name: "Freeze-Dried Blueberry Bites",
+    name: "Apple Chips",
     category: "Fruit Cubes",
-    image:
-      "https://themoonstore.in/cdn/shop/files/70_d0bd2cdb-5e24-4f7e-82d8-7bd548014028.png?v=1783330409&width=800",
+    image: "./images/apple.jpeg",
     price: 119,
     originalPrice: 159,
     rating: 4.8,
@@ -163,10 +159,9 @@ const initialProducts: Product[] = [
   },
   {
     id: 6,
-    name: "Crispy Pineapple Rings",
+    name: "Guava Snacks",
     category: "Crispy Slices",
-    image:
-      "https://themoonstore.in/cdn/shop/files/58.png?v=1782990977&width=800",
+    image: "./images/guava.jpeg",
     price: 89,
     originalPrice: 129,
     rating: 4.6,
@@ -176,10 +171,9 @@ const initialProducts: Product[] = [
   },
   {
     id: 7,
-    name: "Pink Guava Crunch Pouch",
+    name: "Strawberry Guac",
     category: "Pouches",
-    image:
-      "https://themoonstore.in/cdn/shop/files/PREKSHA_-web_content_1000_by_1200_1.png?v=1782990986&width=540",
+    image: "./images/strawberry.jpeg",
     price: 89,
     originalPrice: 120,
     rating: 4.7,
@@ -189,10 +183,9 @@ const initialProducts: Product[] = [
   },
   {
     id: 8,
-    name: "Freeze-Dried Kiwi Slices",
+    name: "PINEAPPLE BITES",
     category: "Crispy Slices",
-    image:
-      "https://themoonstore.in/cdn/shop/files/74_1d11451c-e5c5-436f-8063-4d1777528de8.png?v=1783330410&width=540",
+    image: "./images/pineapple.jpeg",
     price: 109,
     originalPrice: 149,
     rating: 4.8,
@@ -423,7 +416,7 @@ export default function ProductsPage() {
           ))}
         </div>
 
-        {/* Products Grid with Larger Display Size */}
+        {/* Products Grid */}
         {filteredProducts.length > 0 ? (
           <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-20">
             {filteredProducts.map((product) => {
@@ -442,168 +435,136 @@ export default function ProductsPage() {
               return (
                 <div
                   key={product.id}
-                  className="group bg-white rounded-[28px] shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 border-gray-100 flex flex-col justify-between"
+                  className="group relative overflow-hidden rounded-[22px] border border-[#F2B892] bg-[#FFF4E6] shadow-[0_4px_14px_rgba(126,55,20,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(126,55,20,0.14)] flex flex-col"
                 >
-                  {/* Clickable Product Header & Enlarged Image */}
+                  {/* Product Image */}
                   <Link
                     href={`/products/${product.id}`}
-                    className="block relative bg-[#F8F9FA] p-6 flex items-center justify-center overflow-hidden border-b border-gray-100 min-h-[260px] cursor-pointer"
+                    className="relative mx-2.5 mt-2.5 block overflow-hidden rounded-[15px] bg-[#E9DDCB] aspect-square cursor-pointer"
                   >
                     <Image
                       src={product.image}
                       alt={product.name}
-                      width={280}
-                      height={280}
+                      fill
                       unoptimized
-                      className="object-contain h-[210px] w-auto group-hover:scale-110 transition-transform duration-500"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                     />
 
-                    {/* SALE Label (Left Side) */}
-                    {product.isSale && (
-                      <div className="absolute top-3.5 left-3.5 flex flex-col gap-1 z-10">
-                        <span className="bg-[#E8115B] text-white text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-md flex items-center gap-1">
-                          <Flame size={12} className="fill-white" /> SALE
-                        </span>
-                        {product.badge && (
-                          <span className="bg-[#181410] text-[#FFC300] text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md">
-                            {product.badge}
-                          </span>
-                        )}
+                    {/* Item Count */}
+                    <div className="absolute left-2.5 top-2.5 z-10 rounded-[5px] bg-white px-2.5 py-1 text-[11px] font-black text-[#3B2A20] shadow-sm">
+                      {qty} {qty === 1 ? "Item" : "Items"}
+                    </div>
+
+                    {/* Discount */}
+                    {product.isSale && discountPercent > 0 && (
+                      <div className="absolute right-2.5 top-2.5 z-10 rounded-[5px] bg-white px-2.5 py-1 text-[11px] font-black text-[#B74418] shadow-sm">
+                        {discountPercent}% OFF
                       </div>
                     )}
 
-                    {/* Wishlist Button (Stop propagation to allow clicking without triggering Link) */}
+                    {/* Wishlist */}
                     <button
                       type="button"
+                      aria-label={`Add ${product.name} to wishlist`}
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         toggleWishlist(product.id);
                       }}
-                      className="absolute top-3.5 right-3.5 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:scale-110 transition-transform cursor-pointer z-10"
+                      className="absolute bottom-2.5 right-2.5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 shadow-md transition-transform hover:scale-110 cursor-pointer"
                     >
                       <Heart
-                        size={20}
+                        size={18}
                         className={
                           wishlist.includes(product.id)
                             ? "fill-[#E8115B] text-[#E8115B]"
-                            : "text-gray-400 hover:text-red-400"
+                            : "text-[#7A421D]"
                         }
                       />
                     </button>
-
-                    {/* Countdown Timer overlay if applicable */}
-                    {product.offerEndsAt && (
-                      <div className="absolute bottom-3 left-3.5 z-10">
-                        <CountdownTimer targetDate={product.offerEndsAt} />
-                      </div>
-                    )}
                   </Link>
 
-                  {/* Card Body */}
-                  <div className="p-6 flex flex-col flex-grow justify-between gap-4">
-                    <div>
-                      <div className="flex items-center justify-between text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">
-                        <span className="text-[#E8115B] font-extrabold">
-                          {product.category}
+                  {/* Card Content */}
+                  <div className="flex flex-1 flex-col p-3.5 sm:p-4">
+                    <Link href={`/products/${product.id}`}>
+                      <h3 className="min-h-[30px] text-[18px] leading-[1.2] font-extrabold text-[#8B2E08] transition-colors group-hover:text-[#B74418]">
+                        {product.name}
+                      </h3>
+                    </Link>
+
+                    {/* Product details */}
+                    <div className="mt-3 min-h-[42px] flex flex-wrap content-start gap-1.5">
+                      <span className="rounded-full bg-white px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-wide text-[#B74418]">
+                        {product.category}
+                      </span>
+
+                      {product.badge && (
+                        <span className="rounded-full bg-white px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-wide text-[#B74418]">
+                          {product.badge}
                         </span>
-                        <span>{product.weight}</span>
-                      </div>
-
-                      {/* Clickable Title */}
-                      <Link href={`/products/${product.id}`}>
-                        <h3 className="text-lg font-black text-[#181410] line-clamp-1 group-hover:text-[#E8115B] transition-colors">
-                          {product.name}
-                        </h3>
-                      </Link>
-
-                      {/* Reviews & Ratings Bar */}
-                      <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-gray-100">
-                        <div className="flex items-center gap-1.5">
-                          <Star
-                            size={16}
-                            fill="#FFC300"
-                            className="text-[#FFC300]"
-                          />
-                          <span className="font-black text-xs text-[#181410]">
-                            {product.rating}
-                          </span>
-                        </div>
-
-                        <button
-                          type="button"
-                          onClick={() => setActiveReviewProduct(product)}
-                          className="flex items-center gap-1 text-xs font-bold text-gray-500 hover:text-[#E8115B] transition-colors cursor-pointer"
-                        >
-                          <MessageSquare size={13} />
-                          <span>
-                            {product.reviews.length}{" "}
-                            {product.reviews.length === 1
-                              ? "Review"
-                              : "Reviews"}
-                          </span>
-                        </button>
-                      </div>
-
-                      {/* Price Section */}
-                      <div className="mt-3 bg-[#F8F9FA] p-3 rounded-2xl border border-gray-100">
-                        <div className="flex items-baseline gap-2 flex-wrap">
-                          <span className="text-2xl font-black text-[#181410] font-mono">
-                            ₹{totalPrice}
-                          </span>
-                          <span className="text-sm font-bold text-gray-400 line-through font-mono">
-                            ₹{product.originalPrice * qty}
-                          </span>
-                          <span className="text-xs font-extrabold text-[#E8115B] bg-pink-50 px-2 py-0.5 rounded-md">
-                            {discountPercent}% OFF
-                          </span>
-                        </div>
-
-                        {/* Quantity Discount Tiers Indicator */}
-                        <div className="mt-2 text-[11px] font-bold text-gray-600">
-                          {qtyDiscountPct > 0 ? (
-                            <span className="text-green-600 font-extrabold flex items-center gap-1">
-                              <Sparkles size={12} /> Tier Applied:{" "}
-                              {qtyDiscountPct}% Extra Discount!
-                            </span>
-                          ) : (
-                            <span className="text-gray-400">
-                              Buy 2 for 5% OFF, Buy 5 for 15% OFF
-                            </span>
-                          )}
-                        </div>
-                      </div>
+                      )}
                     </div>
 
-                    {/* Interactive Controls (Quantity & Actions) */}
-                    <div className="flex flex-col gap-2.5">
-                      {/* Quantity Selector */}
-                      <div className="flex items-center justify-between bg-gray-100 rounded-full px-3 py-1.5">
-                        <span className="text-[11px] font-black uppercase text-gray-500 ml-2">
+                    {/* Weight */}
+                    <div className="mt-3 self-start rounded-[6px] border border-[#E96F32] bg-white/50 px-2.5 py-1 text-[10px] font-black text-[#B74418]">
+                      {product.weight}
+                    </div>
+
+                    {/* Price */}
+                    <div className="mt-3 flex min-h-[34px] items-baseline gap-2">
+                      <span className="text-[18px] font-black text-[#B74418]">
+                        ₹{totalPrice}/-
+                      </span>
+
+                      {product.originalPrice > product.price && (
+                        <span className="text-[13px] font-bold text-[#9CA3AF] line-through">
+                          ₹{product.originalPrice * qty}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Quantity discount — keeps the existing pricing logic */}
+                    {qtyDiscountPct > 0 && (
+                      <div className="mt-1 flex items-center gap-1 text-[10px] font-extrabold text-green-700">
+                        <Sparkles size={11} />
+                        {qtyDiscountPct}% extra discount
+                      </div>
+                    )}
+
+                    {/* Quantity + Actions */}
+                    <div className="mt-auto pt-4">
+                      <div className="mb-2 flex items-center justify-between rounded-full bg-white/70 px-3 py-1.5">
+                        <span className="text-[10px] font-black uppercase tracking-wide text-[#8B6B5A]">
                           Quantity
                         </span>
-                        <div className="flex items-center gap-3">
+
+                        <div className="flex items-center gap-2.5">
                           <button
                             type="button"
+                            aria-label={`Decrease quantity for ${product.name}`}
                             onClick={() => updateQuantity(product.id, -1)}
-                            className="w-7 h-7 bg-white rounded-full flex items-center justify-center font-bold text-xs shadow-sm hover:bg-gray-200 transition-colors"
+                            className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-[#7A421D] shadow-sm transition-colors hover:bg-[#F8E2CF] cursor-pointer"
                           >
-                            <Minus size={14} />
+                            <Minus size={13} />
                           </button>
-                          <span className="font-mono font-black text-sm w-4 text-center">
+
+                          <span className="w-4 text-center text-xs font-black text-[#3B2A20]">
                             {qty}
                           </span>
+
                           <button
                             type="button"
+                            aria-label={`Increase quantity for ${product.name}`}
                             onClick={() => updateQuantity(product.id, 1)}
-                            className="w-7 h-7 bg-white rounded-full flex items-center justify-center font-bold text-xs shadow-sm hover:bg-gray-200 transition-colors"
+                            className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-[#7A421D] shadow-sm transition-colors hover:bg-[#F8E2CF] cursor-pointer"
                           >
-                            <Plus size={14} />
+                            <Plus size={13} />
                           </button>
                         </div>
                       </div>
 
-                      {/* Add To Cart Button */}
+                      {/* Add Button */}
                       <button
                         type="button"
                         onClick={() =>
@@ -611,30 +572,30 @@ export default function ProductsPage() {
                             `Added ${qty}x ${product.name} to cart for ₹${totalPrice}!`
                           )
                         }
-                        className="w-full py-3 rounded-full bg-[#FFC300] hover:bg-yellow-400 text-[#181410] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md cursor-pointer transition-transform active:scale-98"
+                        className="flex w-full items-center justify-center gap-2 rounded-[11px] bg-[#B74418] py-3.5 text-sm font-black uppercase tracking-wide text-white shadow-sm transition-all hover:bg-[#9D3812] hover:shadow-md active:scale-[0.98] cursor-pointer"
                       >
-                        <ShoppingCart size={16} />
-                        <span>Add To Cart</span>
+                        <span>ADD</span>
+                        <Plus size={17} strokeWidth={3} />
                       </button>
 
-                      {/* Add to Combo Button */}
+                      {/* Combo remains available without changing product details */}
                       <button
                         type="button"
                         onClick={() => toggleComboProduct(product)}
-                        className={`w-full py-2 rounded-full font-extrabold text-[11px] uppercase tracking-wider flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
+                        className={`mt-2 w-full rounded-[10px] py-2 text-[10px] font-extrabold uppercase tracking-wide transition-all cursor-pointer ${
                           isInCombo
-                            ? "bg-green-100 border-green-400 text-green-800"
-                            : "bg-white border-gray-300 text-gray-700 hover:border-gray-900"
+                            ? "bg-green-100 text-green-800 border border-green-300"
+                            : "bg-transparent text-[#8B6B5A] border border-[#E8C7B0] hover:bg-white hover:text-[#7A421D]"
                         }`}
                       >
                         {isInCombo ? (
-                          <>
-                            <Check size={14} /> In Combo Cart
-                          </>
+                          <span className="flex items-center justify-center gap-1">
+                            <Check size={12} /> In Combo Cart
+                          </span>
                         ) : (
-                          <>
-                            <Plus size={14} /> Add To Custom Combo
-                          </>
+                          <span className="flex items-center justify-center gap-1">
+                            <Plus size={12} /> Add To Custom Combo
+                          </span>
                         )}
                       </button>
                     </div>

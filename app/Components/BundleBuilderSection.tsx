@@ -18,51 +18,59 @@ interface Product {
 const products: Product[] = [
   {
     id: 1,
-    name: 'Freeze Dried Jamun Cubes',
+      name: 'Pineapple Slices',
     weight: '35g',
     price: 99,
     category: 'Fruit Cubes',
-    img: 'https://themoonstore.in/cdn/shop/files/74_1d11451c-e5c5-436f-8063-4d1777528de8.png?v=1783330410&width=540',
+img: './images/pineappleB.jpeg',
   },
   {
     id: 2,
-    name: 'Crispy Alphonso Mango Slices',
+     name: 'MANGO SLICES',
     weight: '40g',
     price: 99,
     category: 'Crispy Slices',
-    img: 'https://orzino.com/wp-content/uploads/2026/05/MANGO-SNACKS.jpeg',
+  img: './images/mango.jpeg',
   },
   {
     id: 3,
-    name: 'Berry Mix Crunch Jar',
+  name: 'Banana Chips',
     weight: '50g',
     price: 149,
     category: 'Jars',
-    img: 'https://themoonstore.in/cdn/shop/files/73.png?v=1783330409&width=540',
+  img: './images/banana.jpeg',
   },
   {
     id: 4,
-    name: 'Strawberry Crunch Pouch',
+      name: 'MANGO SLICES',
     weight: '30g',
     price: 79,
     category: 'Fruit Cubes',
-    img: 'https://themoonstore.in/cdn/shop/files/PREKSHA_-web_content_1000_by_1200_1.png?v=1782990986&width=540',
+    img: './images/mango.jpeg',
   },
   {
     id: 5,
-    name: 'Freeze Dried Blueberry Bites',
+  name: 'Apple Chips',
     weight: '35g',
     price: 119,
     category: 'Fruit Cubes',
-    img: 'https://themoonstore.in/cdn/shop/files/70_d0bd2cdb-5e24-4f7e-82d8-7bd548014028.png?v=1783330409&width=800',
+    img: './images/apple.jpeg',
   },
   {
     id: 6,
-    name: 'Crispy Pineapple Rings',
+    name: 'Guava Cubes',
     weight: '45g',
     price: 89,
     category: 'Crispy Slices',
-    img: 'https://themoonstore.in/cdn/shop/files/58.png?v=1782990977&width=800',
+    img: './images/guava.jpeg',
+  },
+   {
+    id: 7,
+    name: 'strawberry Cubes',
+    weight: '45g',
+    price: 89,
+    category: 'Crispy Slices',
+    img: './images/strawberry.jpeg',
   },
 ];
 
@@ -154,7 +162,7 @@ export default function BundleBuilderSection() {
                     className="bg-[#F8F9FA] rounded-[18px] p-3.5 border border-gray-200 flex flex-col items-center text-center justify-between hover:shadow-md transition-shadow"
                   >
                     {/* Product Image */}
-                    <div className="relative w-[100px] h-[110px] mb-2">
+                    <div className="relative w-[190px] h-[140px] mb-2">
                       <Image
                         src={product.img}
                         alt={product.name}

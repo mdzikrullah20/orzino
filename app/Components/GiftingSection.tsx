@@ -55,7 +55,7 @@ export default function GiftingSection() {
             >
               {/* Gift Box Image */}
               <Image
-                src="https://orzino.com/wp-content/uploads/2026/05/MANGO-SNACKS.jpeg"
+                src="./images/apple.jpeg"
                 alt="New Expression Of Gifting - Orzino Gift Pack"
                 fill
                 unoptimized

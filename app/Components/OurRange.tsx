@@ -27,23 +27,23 @@ export default function OurRange() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const items: RangeItem[] = [
+   {
+  id: 1,
+  name: 'Pineapple Slices',
+  flavor: '',
+  sub: 'FRUITS',
+  price: 'Rs. 99',
+  sectionBg: '#4C1D95',
+  bagGradient: 'from-[#6B21A8] to-[#3B0764]',
+  ringBorder:
+    'border-[#C084FC]/50 bg-[#C084FC]/15 shadow-[0_0_60px_rgba(192,132,252,0.3)]',
+  floatingIcons: ['🍍', '🍍', '🍍'],
+  img: './images/pineappleB.jpeg',
+},
     {
       id: 0,
-      name: 'JAMUN CUBES',
-      flavor: 'Freeze<br/>Dried',
-      sub: 'FRUITS',
-      price: 'Rs. 99',
-      sectionBg: '#4C1D95',
-      bagGradient: 'from-[#6B21A8] to-[#3B0764]',
-      ringBorder:
-        'border-[#C084FC]/50 bg-[#C084FC]/15 shadow-[0_0_60px_rgba(192,132,252,0.3)]',
-      floatingIcons: ['🍇', '🍇', '🍇'],
-      img: MOON_STORE_WEB_CONTENT_IMG,
-    },
-    {
-      id: 1,
       name: 'MANGO SLICES',
-      flavor: 'Crispy<br/>Mango',
+      flavor: '',
       sub: 'FRUITS',
       price: 'Rs. 99',
       sectionBg: '#D97706',
@@ -51,77 +51,77 @@ export default function OurRange() {
       ringBorder:
         'border-[#FDE047]/50 bg-[#FDE047]/15 shadow-[0_0_60px_rgba(253,224,71,0.3)]',
       floatingIcons: ['🥭', '🥭', '🥭'],
-      img: MANGO_SNACKS_IMG,
+      img: './images/mango.jpeg',
     },
-    {
-      id: 2,
-      name: 'SEA SALT PRETZELS',
-      flavor: 'Sea Salt',
-      sub: 'PRETZELS',
-      price: 'Rs. 45',
-      sectionBg: '#7A421D',
-      bagGradient: 'from-[#5e3c1a] to-[#3B220C]',
-      ringBorder:
-        'border-[#E0A96D]/50 bg-[#E0A96D]/15 shadow-[0_0_60px_rgba(224,169,109,0.3)]',
-      floatingIcons: ['🥨', '🧂', '🥨'],
-      img: MOON_STORE_WEB_CONTENT_IMG,
-    },
+{
+  id: 2,
+  name: 'Banana Chips',
+  flavor: 'Sea Salt',
+  sub: 'SNACKS',
+  price: 'Rs. 45',
+  sectionBg: '#7A421D',
+  bagGradient: 'from-[#5e3c1a] to-[#3B220C]',
+  ringBorder:
+    'border-[#E0A96D]/50 bg-[#E0A96D]/15 shadow-[0_0_60px_rgba(224,169,109,0.3)]',
+  floatingIcons: ['🍌', '🧂', '🍌'],
+  img: './images/banana.jpeg',
+},
     {
       id: 3,
-      name: 'RIDGE CUT CHIPS',
-      flavor: 'Ridge<br/>Cut',
+        name: 'Pineapple Slices',
+      flavor: '',
       sub: 'CHIPS',
       price: 'Rs. 45',
       sectionBg: '#5B8DF6',
       bagGradient: 'from-[#1e3a8a] to-[#0f172a]',
       ringBorder:
         'border-[#9eb3ff]/50 bg-[#9eb3ff]/15 shadow-[0_0_60px_rgba(158,179,255,0.3)]',
-      floatingIcons: ['🥔', '🧀', '🥔'],
-      img: MANGO_SNACKS_IMG,
+     floatingIcons: ['🍍', '🍍', '🍍'],
+  img: './images/pineapple.jpeg',
     },
-    {
-      id: 4,
-      name: 'CARAMEL POPCORN',
-      flavor: 'Salt<br/>Caramel',
-      sub: 'POPCORN',
-      price: 'Rs. 43',
-      sectionBg: '#0D9488',
-      bagGradient: 'from-[#0ea5a5] to-[#043e3e]',
-      ringBorder:
-        'border-[#80EEEE]/50 bg-[#80EEEE]/15 shadow-[0_0_60px_rgba(0,242,254,0.3)]',
-      floatingIcons: ['🍿', '🍯', '🍿'],
-      img: MOON_STORE_WEB_CONTENT_IMG,
-    },
-    {
-      id: 5,
-      name: 'STRAWBERRY CRUNCH',
-      flavor: 'Freeze<br/>Dried',
-      sub: 'FRUITS',
-      price: 'Rs. 60',
-      sectionBg: '#BE123C',
-      bagGradient: 'from-[#E8115B] to-[#700628]',
-      ringBorder:
-        'border-[#FF80A0]/50 bg-[#FF80A0]/15 shadow-[0_0_60px_rgba(255,128,160,0.3)]',
-      floatingIcons: ['🍓', '🍓', '🍓'],
-      img: MANGO_SNACKS_IMG,
-    },
+   {
+  id: 4,
+  name: 'Apple Chips',
+  flavor: '',
+  sub: 'FRUITS',
+  price: 'Rs. 43',
+  sectionBg: '#0D9488',
+  bagGradient: 'from-[#0ea5a5] to-[#043e3e]',
+  ringBorder:
+    'border-[#80EEEE]/50 bg-[#80EEEE]/15 shadow-[0_0_60px_rgba(0,242,254,0.3)]',
+  floatingIcons: ['🍎', '🍯', '🍎'],
+  img: './images/apple.jpeg',
+},
+{
+  id: 5,
+  name: 'Guava Snacks',
+  flavor: '',
+  sub: 'FRUITS',
+  price: 'Rs. 60',
+  sectionBg: '#BE123C',
+  bagGradient: 'from-[#E8115B] to-[#700628]',
+  ringBorder:
+    'border-[#FF80A0]/50 bg-[#FF80A0]/15 shadow-[0_0_60px_rgba(255,128,160,0.3)]',
+  floatingIcons: ['🍈', '🍈', '🍈'],
+  img: './images/guava.jpeg',
+},
     {
       id: 6,
-      name: 'TANGY GUACAMOLE',
-      flavor: 'Tangy<br/>Guac',
-      sub: 'NACHOS',
+      name: 'Strawberry Guac',
+      flavor: '',
+      sub: 'Guac',
       price: 'Rs. 50',
       sectionBg: '#15803D',
       bagGradient: 'from-[#16a34a] to-[#052e16]',
       ringBorder:
         'border-[#86EFAC]/50 bg-[#86EFAC]/15 shadow-[0_0_60px_rgba(134,239,172,0.3)]',
       floatingIcons: ['🥑', '🍋', '🥑'],
-      img: MOON_STORE_WEB_CONTENT_IMG,
+      img: './images/strawberry.jpeg',
     },
     {
       id: 7,
       name: 'PINEAPPLE BITES',
-      flavor: 'Tangy<br/>Pineapple',
+      flavor: '',
       sub: 'FRUITS',
       price: 'Rs. 85',
       sectionBg: '#EA580C',
@@ -129,7 +129,7 @@ export default function OurRange() {
       ringBorder:
         'border-[#FDBA74]/50 bg-[#FDBA74]/15 shadow-[0_0_60px_rgba(253,186,116,0.3)]',
       floatingIcons: ['🍍', '🍍', '🍍'],
-      img: MANGO_SNACKS_IMG,
+      img: './images/pineapple.jpeg',
     },
   ];
 
@@ -310,13 +310,13 @@ export default function OurRange() {
                         />
                       )}
 
-                      <div
+                      {/* <div
                         className={`absolute inset-0 bg-gradient-to-b ${item.bagGradient} opacity-55 mix-blend-multiply`}
-                      />
+                      /> */}
 
-                      <div className="relative z-10 text-center font-black text-[9px] sm:text-[11px] tracking-widest text-white drop-shadow">
+                      {/* <div className="relative z-10 text-center font-black text-[9px] sm:text-[11px] tracking-widest text-white drop-shadow">
                         SNACK
-                      </div>
+                      </div> */}
 
                       <div
                         className="relative z-10 font-serif text-center text-white text-[13px] sm:text-[16px] leading-snug drop-shadow-md"

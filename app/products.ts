@@ -20,7 +20,7 @@ export const products: Product[] = [
     name: "Mango",
     brand: "Orzino",
     category: "Freeze Dried",
-    image: "/products/mango.png",
+    image: ".images/mango.jpg",
     price: 99,
     originalPrice: 149,
     isNew: true,
