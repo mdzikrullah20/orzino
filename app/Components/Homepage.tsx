@@ -22,28 +22,28 @@ interface Bag {
 }
 
 // Product Images
-const JAMUN_CUBES_IMG_1 =
-  'https://themoonstore.in/cdn/shop/files/74_1d11451c-e5c5-436f-8063-4d1777528de8.png?v=1783330410&width=540';
-const JAMUN_CUBES_IMG_2 =
-  'https://themoonstore.in/cdn/shop/files/70_d0bd2cdb-5e24-4f7e-82d8-7bd548014028.png?v=1783330409&width=800';
-const MANGO_SNACKS_IMG =
-  'https://orzino.com/wp-content/uploads/2026/05/MANGO-SNACKS.jpeg';
-const PREKSHA_IMG =
-  'https://themoonstore.in/cdn/shop/files/58.png?v=1782990977&width=800';
+// const JAMUN_CUBES_IMG_1 =
+//   'https://themoonstore.in/cdn/shop/files/74_1d11451c-e5c5-436f-8063-4d1777528de8.png?v=1783330410&width=540';
+// const JAMUN_CUBES_IMG_2 =
+//   'https://themoonstore.in/cdn/shop/files/70_d0bd2cdb-5e24-4f7e-82d8-7bd548014028.png?v=1783330409&width=800';
+// const MANGO_SNACKS_IMG =
+//   'https://orzino.com/wp-content/uploads/2026/05/MANGO-SNACKS.jpeg';
+// const PREKSHA_IMG =
+//   'https://themoonstore.in/cdn/shop/files/58.png?v=1782990977&width=800';
 
 const bags: Bag[] = [
   {
     rot: '-rotate-[8deg]',
     z: 'z-2',
     margin: '-mr-3 sm:-mr-4',
-    img: JAMUN_CUBES_IMG_1,
+    img: './images/apple.jpeg',
     alt: 'ORZINO Jamun Freeze Dried Cubes Pack 1',
   },
   {
     rot: '-rotate-[2deg]',
     z: 'z-3',
     translate: '-translate-y-2 sm:-translate-y-3',
-    img: JAMUN_CUBES_IMG_2,
+    img: './images/mango.jpeg',
     alt: 'ORZINO Jamun Freeze Dried Cubes Pack 2',
   },
   {
@@ -51,7 +51,7 @@ const bags: Bag[] = [
     z: 'z-2',
     margin: '-ml-3 sm:-ml-4',
     translate: 'translate-y-1.5',
-    img: MANGO_SNACKS_IMG,
+    img: './images/pineapple.jpeg',
     alt: 'ORZINO Mango Freeze Dried Slices',
   },
   {
@@ -59,7 +59,7 @@ const bags: Bag[] = [
     z: 'z-1',
     margin: '-ml-[12px] sm:-ml-[18px]',
     translate: '-translate-y-1',
-    img: PREKSHA_IMG,
+    img: './images/banana.jpeg',
     alt: 'ORZINO Freeze Dried Fruits Collection',
   },
 ];
