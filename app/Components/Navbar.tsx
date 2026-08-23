@@ -1,26 +1,36 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
-import { Menu, X, ShoppingBag, Search } from "lucide-react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { Menu, X, ShoppingBag, Search, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-// Nav Links
-const links = [
+// ============================================================
+// TYPES & CONSTANTS
+// ============================================================
+
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: string;
+  img: string;
+}
+
+const LINKS = [
   { label: "Home", href: "/" },
   { label: "Products", href: "/products" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
 
-// Sample Product Search Items
-const searchProducts = [
+const SEARCH_PRODUCTS: Product[] = [
   {
     id: 1,
     name: "Freeze-Dried Jamun Cubes",
     category: "Fruit Cubes",
-    price: "₹99",
+    price: "₹149",
     img: "https://themoonstore.in/cdn/shop/files/74_1d11451c-e5c5-436f-8063-4d1777528de8.png?v=1783330410&width=540",
   },
   {
@@ -60,70 +70,125 @@ const searchProducts = [
   },
 ];
 
-const Navbar = () => {
+// ============================================================
+// NAVBAR COMPONENT
+// ============================================================
+
+const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [cartCount, setCartCount] = useState<number>(0);
 
   const searchRef = useRef<HTMLDivElement>(null);
   const mobileSearchRef = useRef<HTMLDivElement>(null);
   const mobileInputRef = useRef<HTMLInputElement>(null);
+
   const router = useRouter();
 
-  // Handle Scroll state
+  // Load and sync cart count dynamic state
+  useEffect(() => {
+    const updateCartCount = () => {
+      const storedCart = localStorage.getItem("cart");
+      if (storedCart) {
+        try {
+          const cartItems = JSON.parse(storedCart);
+          const total = Array.isArray(cartItems)
+            ? cartItems.reduce((acc, item) => acc + (item.quantity || 1), 0)
+            : 0;
+          setCartCount(total);
+        } catch {
+          setCartCount(0);
+        }
+      } else {
+        setCartCount(0);
+      }
+    };
+
+    updateCartCount();
+    window.addEventListener("storage", updateCartCount);
+    window.addEventListener("cartUpdated", updateCartCount);
+
+    return () => {
+      window.removeEventListener("storage", updateCartCount);
+      window.removeEventListener("cartUpdated", updateCartCount);
+    };
+  }, []);
+
+  // Handle Navbar Background Scroll Effect
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close search dropdown on click outside
+  // Close search menu on Outside Click or Escape Key
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
       if (
-        searchRef.current && !searchRef.current.contains(target) &&
-        mobileSearchRef.current && !mobileSearchRef.current.contains(target)
+        !searchRef.current?.contains(target) &&
+        !mobileSearchRef.current?.contains(target)
       ) {
         setIsSearchOpen(false);
       }
     };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsSearchOpen(false);
+        setShowMobileSearch(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
-  // Auto focus mobile input when toggled open
+  // Auto focus mobile search input when activated
   useEffect(() => {
-    if (showMobileSearch && mobileInputRef.current) {
-      mobileInputRef.current.focus();
+    if (showMobileSearch) {
+      mobileInputRef.current?.focus();
     }
   }, [showMobileSearch]);
 
-  // Filter products by search query
-  const filteredSearch = searchProducts.filter((p) =>
-    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.category.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredSearch = SEARCH_PRODUCTS.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleSelectProduct = () => {
-    setIsSearchOpen(false);
-    setShowMobileSearch(false);
-    setSearchQuery("");
-    setOpen(false);
-    router.push("/products");
-  };
+  const handleSelectProduct = useCallback(
+    (productId: number) => {
+      setIsSearchOpen(false);
+      setShowMobileSearch(false);
+      setSearchQuery("");
+      setOpen(false);
+      router.push(`/products/${productId}`);
+    },
+    [router]
+  );
 
-  const toggleMobileSearch = () => {
+  const toggleMobileSearch = useCallback(() => {
     setShowMobileSearch((prev) => !prev);
-    if (open) setOpen(false); 
-  };
+    if (open) setOpen(false);
+  }, [open]);
 
-  const toggleMenu = () => {
+  const toggleMenu = useCallback(() => {
     setOpen((prev) => !prev);
-    if (showMobileSearch) setShowMobileSearch(false); // Close search if menu is toggled
-  };
+    if (showMobileSearch) setShowMobileSearch(false);
+  }, [showMobileSearch]);
+
+  const clearSearch = useCallback(() => {
+    setSearchQuery("");
+    setIsSearchOpen(false);
+  }, []);
 
   return (
     <nav
@@ -134,9 +199,11 @@ const Navbar = () => {
       }`}
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-        
-        {/* Logo Container */}
-        <Link href="/" className="cursor-pointer relative block w-10 h-10 sm:w-16 sm:h-16 shrink-0">
+        {/* LOGO */}
+        <Link
+          href="/"
+          className="cursor-pointer relative block w-10 h-10 sm:w-16 sm:h-16 shrink-0"
+        >
           <Image
             src="/logo.png"
             alt="Orzino Logo"
@@ -147,9 +214,9 @@ const Navbar = () => {
           />
         </Link>
 
-        {/* Desktop Navigation Links */}
+        {/* DESKTOP NAV LINKS */}
         <ul className="hidden md:flex items-center gap-7 text-[#181410] font-bold text-[14px] uppercase tracking-wider">
-          {links.map((link) => (
+          {LINKS.map((link) => (
             <li key={link.href} className="relative group">
               <Link
                 href={link.href}
@@ -162,105 +229,144 @@ const Navbar = () => {
           ))}
         </ul>
 
-        {/* Desktop Search Bar with Instant Dropdown */}
-        <div ref={searchRef} className="hidden lg:block relative w-64">
-          <div className="relative flex items-center">
-            <Search className="absolute left-3.5 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onFocus={() => setIsSearchOpen(true)}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setIsSearchOpen(true);
-              }}
-              placeholder="Search snacks..."
-              className="w-full pl-10 pr-8 py-2 bg-black/5 border border-[#FFC300] rounded-full text-xs text-[#181410] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FFC300] transition-all"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 text-gray-400 hover:text-[#181410]"
-              >
-                <X size={14} />
-              </button>
+        {/* DESKTOP SEARCH + ACCOUNT + CART */}
+        <div className="hidden md:flex items-center gap-4 flex-1 justify-end">
+          <div ref={searchRef} className="relative w-full max-w-[500px]">
+            <div className="relative flex items-center">
+              <input
+                type="text"
+                value={searchQuery}
+                onFocus={() => setIsSearchOpen(true)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setIsSearchOpen(true);
+                }}
+                placeholder="Search For Anything..."
+                className="w-full h-10 pl-8 pr-12 bg-[#f5f5f5] border-none rounded-[9px] text-[13px] text-[#181410] placeholder-[#888] focus:outline-none focus:ring-2 focus:ring-[#FFC300]"
+              />
+              <Search
+                size={21}
+                strokeWidth={2}
+                className="absolute right-4 text-[#181410] pointer-events-none"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={clearSearch}
+                  className="absolute right-11 text-gray-400 hover:text-[#181410] cursor-pointer"
+                  aria-label="Clear search"
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+
+            {/* DESKTOP SEARCH RESULTS */}
+            {isSearchOpen && searchQuery.trim() !== "" && (
+              <div className="absolute top-12 left-0 right-0 bg-[#181410] border border-white/10 rounded-xl shadow-2xl overflow-hidden z-[100] max-h-80 overflow-y-auto">
+                {filteredSearch.length > 0 ? (
+                  <div className="p-2 flex flex-col gap-1">
+                    {filteredSearch.map((item) => (
+                      <div
+                        key={item.id}
+                        onClick={() => handleSelectProduct(item.id)}
+                        className="flex items-center gap-3 p-2 hover:bg-white/10 rounded-lg cursor-pointer transition-colors"
+                      >
+                        <div className="relative w-10 h-10 bg-white/10 rounded-lg overflow-hidden shrink-0">
+                          <Image
+                            src={item.img}
+                            alt={item.name}
+                            fill
+                            unoptimized
+                            className="object-contain p-1"
+                          />
+                        </div>
+                        <div className="flex flex-col text-left overflow-hidden">
+                          <span className="text-xs font-bold text-white truncate">
+                            {item.name}
+                          </span>
+                          <span className="text-[10px] text-[#FFC300] font-bold">
+                            {item.category} • {item.price}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-4 text-center text-xs text-gray-400">
+                    No snacks matching "{searchQuery}"
+                  </div>
+                )}
+              </div>
             )}
           </div>
 
-          {/* Search Live Results Popup - Desktop */}
-          {isSearchOpen && searchQuery.trim() !== "" && (
-            <div className="absolute top-11 left-0 right-0 bg-[#181410] border border-white/20 rounded-2xl shadow-2xl overflow-hidden z-50 max-h-80 overflow-y-auto">
-              {filteredSearch.length > 0 ? (
-                <div className="p-2 flex flex-col gap-1">
-                  {filteredSearch.map((item) => (
-                    <div
-                      key={item.id}
-                      onClick={handleSelectProduct}
-                      className="flex items-center gap-3 p-2 hover:bg-white/10 rounded-xl cursor-pointer transition-colors"
-                    >
-                      <div className="relative w-10 h-10 bg-white/10 rounded-lg overflow-hidden shrink-0">
-                        <Image
-                          src={item.img}
-                          alt={item.name}
-                          fill
-                          unoptimized
-                          className="object-contain p-0.5"
-                        />
-                      </div>
-                      <div className="flex flex-col text-left overflow-hidden">
-                        <span className="text-xs font-bold text-white truncate">
-                          {item.name}
-                        </span>
-                        <span className="text-[10px] text-[#FFC300] font-mono font-bold">
-                          {item.category} • {item.price}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="p-4 text-center text-xs text-gray-400">
-                  No snacks matching &quot;{searchQuery}&quot;
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Desktop Order Button */}
-        <div className="hidden md:block">
           <Link
-            href="/products"
-            className="cursor-pointer bg-[#FFC300] text-[#181410] px-5 py-2 sm:px-6 sm:py-2.5 rounded-full font-black uppercase text-[13px] sm:text-[14px] tracking-wider flex items-center gap-2 hover:bg-[#181410] hover:text-[#FFC300] hover:scale-105 active:scale-95 transition-all duration-300 shadow-md"
+            href="/account"
+            aria-label="Account"
+            className="shrink-0 w-9 h-9 flex items-center justify-center text-[#181410] hover:text-[#E8115B] transition-colors"
           >
-            <ShoppingBag size={18} />
-            Order Now
+            <UserRound size={21} strokeWidth={1.7} />
+          </Link>
+
+          <Link
+            href="/cart"
+            aria-label="Shopping Cart"
+            className="relative shrink-0 w-9 h-9 flex items-center justify-center text-[#181410] hover:text-[#E8115B] transition-colors"
+          >
+            <ShoppingBag size={21} strokeWidth={1.7} />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-[19px] h-[19px] px-1 rounded-full bg-[#D96A2B] text-white text-[9px] font-bold flex items-center justify-center">
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
+            )}
           </Link>
         </div>
 
-        {/* Mobile Action Controls (Clean Search Icon without yellow BG or X) */}
-        <div className="flex items-center gap-2 md:hidden">
-          {/* Mobile Search Icon Toggle */}
+        {/* MOBILE CONTROLS */}
+        <div className="flex items-center gap-0.5 md:hidden">
           <button
+            type="button"
             onClick={toggleMobileSearch}
             aria-label="Toggle search"
             className="p-2 text-[#181410] hover:text-[#E8115B] transition-colors cursor-pointer"
           >
-            <Search size={22} />
+            <Search size={21} strokeWidth={1.8} />
           </button>
 
-          {/* Mobile Hamburger Menu Icon Toggle */}
+          <Link
+            href="/account"
+            aria-label="Account"
+            className="p-2 text-[#181410] hover:text-[#E8115B] transition-colors"
+          >
+            <UserRound size={21} strokeWidth={1.8} />
+          </Link>
+
+          <Link
+            href="/cart"
+            aria-label="Shopping Cart"
+            className="relative p-2 text-[#181410] hover:text-[#E8115B] transition-colors"
+          >
+            <ShoppingBag size={21} strokeWidth={1.8} />
+            {cartCount > 0 && (
+              <span className="absolute top-0 right-0 min-w-[17px] h-[17px] px-1 rounded-full bg-[#D96A2B] text-white text-[8px] font-bold flex items-center justify-center">
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
+            )}
+          </Link>
+
           <button
+            type="button"
             onClick={toggleMenu}
             aria-label="Toggle menu"
-            className="text-[#181410] p-2 hover:text-[#E8115B] transition-colors cursor-pointer"
+            className="p-2 text-[#181410] hover:text-[#E8115B] transition-colors cursor-pointer"
           >
-            {open ? <X size={24} /> : <Menu size={24} />}
+            {open ? <X size={23} /> : <Menu size={23} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Expandable Search Bar */}
+      {/* MOBILE SEARCH BAR */}
       <div
         ref={mobileSearchRef}
         className={`md:hidden overflow-hidden transition-all duration-300 ease-out max-w-6xl mx-auto ${
@@ -280,12 +386,21 @@ const Navbar = () => {
               setSearchQuery(e.target.value);
               setIsSearchOpen(true);
             }}
-            placeholder="Search Jamun, Mango, Berry..."
-            className="w-full pl-10 pr-4 py-2 bg-gray-100 border border-gray-200 rounded-full text-xs text-[#181410] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FFC300] transition-all"
+            placeholder="Search For Anything..."
+            className="w-full pl-10 pr-10 py-2 bg-gray-100 border border-gray-200 rounded-full text-xs text-[#181410] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FFC300] transition-all"
           />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={clearSearch}
+              className="absolute right-4 text-gray-400 hover:text-[#181410] cursor-pointer"
+            >
+              <X size={14} />
+            </button>
+          )}
         </div>
 
-        {/* Search Live Results Popup - Mobile */}
+        {/* MOBILE SEARCH RESULTS */}
         {isSearchOpen && searchQuery.trim() !== "" && (
           <div className="mt-2 bg-[#181410] border border-white/20 rounded-2xl shadow-2xl overflow-hidden z-50 max-h-64 overflow-y-auto">
             {filteredSearch.length > 0 ? (
@@ -293,8 +408,8 @@ const Navbar = () => {
                 {filteredSearch.map((item) => (
                   <div
                     key={item.id}
-                    onClick={handleSelectProduct}
-                    className="flex items-center gap-3 p-2 hover:bg-white/10 rounded-xl cursor-pointer transition-colors"
+                    onClick={() => handleSelectProduct(item.id)}
+                    className="flex items-center gap-3 p-2 hover:bg-white/10 rounded-xl cursor-pointer"
                   >
                     <div className="relative w-9 h-9 bg-white/10 rounded-lg overflow-hidden shrink-0">
                       <Image
@@ -318,14 +433,14 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="p-4 text-center text-xs text-gray-400">
-                No snacks matching &quot;{searchQuery}&quot;
+                No snacks matching "{searchQuery}"
               </div>
             )}
           </div>
         )}
       </div>
 
-      {/* Mobile Navigation Drawer */}
+      {/* MOBILE DRAWER */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
           open
@@ -334,12 +449,16 @@ const Navbar = () => {
         }`}
       >
         <ul className="flex flex-col gap-3 pb-3 text-[#181410] font-bold uppercase text-[14px] tracking-wider">
-          {links.map((link, i) => (
+          {LINKS.map((link, i) => (
             <li
               key={link.href}
-              style={{ transitionDelay: open ? `${i * 50}ms` : "0ms" }}
+              style={{
+                transitionDelay: open ? `${i * 50}ms` : "0ms",
+              }}
               className={`transition-all duration-300 ${
-                open ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0"
+                open
+                  ? "translate-x-0 opacity-100"
+                  : "-translate-x-3 opacity-0"
               }`}
             >
               <Link
@@ -351,15 +470,6 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
-
-          <Link
-            href="/products"
-            onClick={() => setOpen(false)}
-            className="bg-[#FFC300] text-[#181410] px-6 py-2.5 rounded-full font-black uppercase text-[14px] tracking-wider w-full mt-2 flex items-center justify-center gap-2 hover:bg-[#181410] hover:text-[#FFC300] transition-colors shadow-md"
-          >
-            <ShoppingBag size={18} />
-            Order Now
-          </Link>
         </ul>
       </div>
     </nav>
