@@ -132,11 +132,10 @@ function InvoiceModal({ cart, comboCart, productsList, cartTotal, comboSummary, 
         <div className="sticky top-0 bg-white z-10 flex items-center justify-between px-5 py-3 border-b">
           <h3 className="font-black text-sm uppercase text-gray-800">Order Invoice</h3>
           <div className="flex items-center gap-2">
-         <button
+            <button
   type="button"
   onClick={handleDownloadPDF}
-  disabled={cartItemCount === 0 && comboSummary.totalItems === 0}
-  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-xs font-bold px-3 py-2 rounded-lg"
+  className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg cursor-pointer transition-colors"
 >
   <Download size={13} />
   Download PDF
