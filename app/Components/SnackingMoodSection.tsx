@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import html2pdf from "html2pdf.js";
 import { motion, AnimatePresence } from "framer-motion";
 
 
@@ -80,49 +79,59 @@ function InvoiceModal({ cart, comboCart, productsList, cartTotal, comboSummary, 
   const grandWithTax = grandTotal + tax;
 
   const handleDownloadPDF = async () => {
-  const element = invoiceRef.current;
+    const element = invoiceRef.current;
 
-  if (!element) return;
+    if (!element) return;
 
-  const invoiceNumber = `INV-${Date.now().toString().slice(-6)}`;
+    // Dynamically import html2pdf.js only when needed, in the browser.
+    // A static top-level import would get evaluated during Next.js's
+    // server-side module graph build (even in a "use client" file),
+    // and html2pdf.js references the browser-only global `self` at
+    // import time, which crashes with "self is not defined" on the server.
+    const html2pdf = (await import("html2pdf.js")).default;
 
-  const options = {
-    margin: [8, 8, 8, 8],
+    const invoiceNumber = `INV-${Date.now().toString().slice(-6)}`;
 
-    filename: `ORZINO-Invoice-${invoiceNumber}.pdf`,
+    // `as const` on each literal value stops TypeScript from widening
+    // "jpeg" -> string, "a4" -> string, etc. so they match the library's
+    // literal-union types (e.g. image.type: "jpeg" | "png" | "webp").
+    const options = {
+      margin: [8, 8, 8, 8] as [number, number, number, number],
 
-    image: {
-      type: "jpeg",
-      quality: 0.98,
-    },
+      filename: `ORZINO-Invoice-${invoiceNumber}.pdf`,
 
-    html2canvas: {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: "#ffffff",
-      logging: false,
-    },
+      image: {
+        type: "jpeg" as const,
+        quality: 0.98,
+      },
 
-    jsPDF: {
-      unit: "mm",
-      format: "a4",
-      orientation: "portrait",
-    },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        logging: false,
+      },
 
-    pagebreak: {
-      mode: ["avoid-all", "css", "legacy"],
-    },
+      jsPDF: {
+        unit: "mm" as const,
+        format: "a4" as const,
+        orientation: "portrait" as const,
+      },
+
+      pagebreak: {
+        mode: ["avoid-all", "css", "legacy"] as const,
+      },
+    };
+
+    try {
+      await html2pdf()
+        .set(options)
+        .from(element)
+        .save();
+    } catch (error) {
+      console.error("PDF generation failed:", error);
+    }
   };
-
-  try {
-    await html2pdf()
-      .set(options)
-      .from(element)
-      .save();
-  } catch (error) {
-    console.error("PDF generation failed:", error);
-  }
-};
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6">
