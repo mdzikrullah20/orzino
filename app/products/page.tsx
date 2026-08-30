@@ -321,7 +321,7 @@ export default function ProductsPage() {
   // ── WhatsApp Order Message ──────────────────────────────────────────────────
   const handleCheckoutWhatsApp = () => {
     const totalItems = cart.reduce((s, i) => s + i.quantity, 0) + comboSummary.totalItems;
-    if (totalItems === 0) { alert("Cart aur Combo dono khali hain!"); return; }
+    if (totalItems === 0) { alert("Both the Cart and Combo are empty!"); return; }
 
     const grandTotal = cartTotal + comboSummary.finalPrice;
     const tax = Math.round(grandTotal * 0.05);
