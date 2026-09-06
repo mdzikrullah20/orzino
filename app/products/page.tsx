@@ -1119,11 +1119,16 @@ export default function ProductsPage() {
   // ─────────────────────────────────────────
 
   const handleCheckoutWhatsApp = () => {
+<<<<<<< HEAD
     const totalItems =
       cart.reduce(
         (s, i) => s + i.quantity,
         0
       ) + comboSummary.totalItems;
+=======
+    const totalItems = cart.reduce((s, i) => s + i.quantity, 0) + comboSummary.totalItems;
+    if (totalItems === 0) { alert("Both the Cart and Combo are empty!"); return; }
+>>>>>>> bd303ea16a63a9aaf06bda7e453bf50258c4eee3
 
     if (totalItems === 0) {
       alert(
