@@ -15,11 +15,12 @@ interface RangeItem {
   ringBorder: string;
   floatingIcons: string[];
   img: string;
+  isComingSoon?: boolean;
 }
 
 const MANGO_SNACKS_IMG =
   'https://themoonstore.in/cdn/shop/files/74_1d11451c-e5c5-436f-8063-4d1777528de8.png?v=1783330410&width=540';
-  
+
 const MOON_STORE_WEB_CONTENT_IMG =
   'https://themoonstore.in/cdn/shop/files/PREKSHA_-web_content_1000_by_1200_1.png?v=1782990986&width=540';
 
@@ -27,19 +28,20 @@ export default function OurRange() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const items: RangeItem[] = [
-   {
-  id: 1,
-  name: 'Pineapple Slices',
-  flavor: '',
-  sub: 'FRUITS',
-  price: 'Rs. 99',
-  sectionBg: '#4C1D95',
-  bagGradient: 'from-[#6B21A8] to-[#3B0764]',
-  ringBorder:
-    'border-[#C084FC]/50 bg-[#C084FC]/15 shadow-[0_0_60px_rgba(192,132,252,0.3)]',
-  floatingIcons: ['🍍', '🍍', '🍍'],
-  img: './images/pineappleB.jpeg',
-},
+    {
+      id: 1,
+      name: 'Pineapple Slices',
+      flavor: '',
+      sub: 'FRUITS',
+      price: 'Rs. 99',
+      sectionBg: '#4C1D95',
+      bagGradient: 'from-[#6B21A8] to-[#3B0764]',
+      ringBorder:
+        'border-[#C084FC]/50 bg-[#C084FC]/15 shadow-[0_0_60px_rgba(192,132,252,0.3)]',
+      floatingIcons: ['🍍', '🍍', '🍍'],
+      img: './images/newPineapple.jpeg',
+    },
+
     {
       id: 0,
       name: 'MANGO SLICES',
@@ -51,24 +53,27 @@ export default function OurRange() {
       ringBorder:
         'border-[#FDE047]/50 bg-[#FDE047]/15 shadow-[0_0_60px_rgba(253,224,71,0.3)]',
       floatingIcons: ['🥭', '🥭', '🥭'],
-      img: './images/mango.jpeg',
+      img: './images/newMango.jpeg',
     },
-{
-  id: 2,
-  name: 'Banana Chips',
-  flavor: 'Sea Salt',
-  sub: 'SNACKS',
-  price: 'Rs. 45',
-  sectionBg: '#7A421D',
-  bagGradient: 'from-[#5e3c1a] to-[#3B220C]',
-  ringBorder:
-    'border-[#E0A96D]/50 bg-[#E0A96D]/15 shadow-[0_0_60px_rgba(224,169,109,0.3)]',
-  floatingIcons: ['🍌', '🧂', '🍌'],
-  img: './images/banana.jpeg',
-},
+
+    {
+      id: 2,
+      name: 'Banana Chips',
+      flavor: '',
+      sub: 'SNACKS',
+      price: 'Rs. 45',
+      sectionBg: '#7A421D',
+      bagGradient: 'from-[#5e3c1a] to-[#3B220C]',
+      ringBorder:
+        'border-[#E0A96D]/50 bg-[#E0A96D]/15 shadow-[0_0_60px_rgba(224,169,109,0.3)]',
+      floatingIcons: ['🍌', '🧂', '🍌'],
+      img: './images/banana.jpeg',
+      isComingSoon: true,
+    },
+
     {
       id: 3,
-        name: 'Pineapple Slices',
+      name: 'Pineapple Slices',
       flavor: '',
       sub: 'CHIPS',
       price: 'Rs. 45',
@@ -76,35 +81,40 @@ export default function OurRange() {
       bagGradient: 'from-[#1e3a8a] to-[#0f172a]',
       ringBorder:
         'border-[#9eb3ff]/50 bg-[#9eb3ff]/15 shadow-[0_0_60px_rgba(158,179,255,0.3)]',
-     floatingIcons: ['🍍', '🍍', '🍍'],
-  img: './images/pineapple.jpeg',
+      floatingIcons: ['🍍', '🍍', '🍍'],
+      img: './images/newPineapple.jpeg',
     },
-   {
-  id: 4,
-  name: 'Apple Chips',
-  flavor: '',
-  sub: 'FRUITS',
-  price: 'Rs. 43',
-  sectionBg: '#0D9488',
-  bagGradient: 'from-[#0ea5a5] to-[#043e3e]',
-  ringBorder:
-    'border-[#80EEEE]/50 bg-[#80EEEE]/15 shadow-[0_0_60px_rgba(0,242,254,0.3)]',
-  floatingIcons: ['🍎', '🍯', '🍎'],
-  img: './images/apple.jpeg',
-},
-{
-  id: 5,
-  name: 'Guava Snacks',
-  flavor: '',
-  sub: 'FRUITS',
-  price: 'Rs. 60',
-  sectionBg: '#BE123C',
-  bagGradient: 'from-[#E8115B] to-[#700628]',
-  ringBorder:
-    'border-[#FF80A0]/50 bg-[#FF80A0]/15 shadow-[0_0_60px_rgba(255,128,160,0.3)]',
-  floatingIcons: ['🍈', '🍈', '🍈'],
-  img: './images/guava.jpeg',
-},
+
+    {
+      id: 4,
+      name: 'Apple Chips',
+      flavor: '',
+      sub: 'FRUITS',
+      price: 'Rs. 43',
+      sectionBg: '#0D9488',
+      bagGradient: 'from-[#0ea5a5] to-[#043e3e]',
+      ringBorder:
+        'border-[#80EEEE]/50 bg-[#80EEEE]/15 shadow-[0_0_60px_rgba(0,242,254,0.3)]',
+      floatingIcons: ['🍎', '🍯', '🍎'],
+      img: './images/apple.jpeg',
+      isComingSoon: true,
+    },
+
+    {
+      id: 5,
+      name: 'Guava Snacks',
+      flavor: '',
+      sub: 'FRUITS',
+      price: 'Rs. 60',
+      sectionBg: '#BE123C',
+      bagGradient: 'from-[#E8115B] to-[#700628]',
+      ringBorder:
+        'border-[#FF80A0]/50 bg-[#FF80A0]/15 shadow-[0_0_60px_rgba(255,128,160,0.3)]',
+      floatingIcons: ['🍈', '🍈', '🍈'],
+      img: './images/guava.jpeg',
+      isComingSoon: true,
+    },
+
     {
       id: 6,
       name: 'Strawberry Guac',
@@ -117,7 +127,9 @@ export default function OurRange() {
         'border-[#86EFAC]/50 bg-[#86EFAC]/15 shadow-[0_0_60px_rgba(134,239,172,0.3)]',
       floatingIcons: ['🥑', '🍋', '🥑'],
       img: './images/strawberry.jpeg',
+      isComingSoon: true,
     },
+
     {
       id: 7,
       name: 'PINEAPPLE BITES',
@@ -130,6 +142,7 @@ export default function OurRange() {
         'border-[#FDBA74]/50 bg-[#FDBA74]/15 shadow-[0_0_60px_rgba(253,186,116,0.3)]',
       floatingIcons: ['🍍', '🍍', '🍍'],
       img: './images/pineapple.jpeg',
+      isComingSoon: true,
     },
   ];
 
@@ -186,12 +199,11 @@ export default function OurRange() {
     }
   };
 
-  // Button Width = 36px (w-9), Gap = 8px (gap-2) -> Step = 44px
-  const buttonStep = 44;
-  const trackOffset = -activeIndex * buttonStep;
-
   return (
-    <section id="range" className="relative w-full bg-[#E5E9EE] overflow-hidden pb-12">
+    <section
+      id="range"
+      className="relative w-full bg-[#E5E9EE] overflow-hidden pb-12"
+    >
       <motion.div
         animate={{ backgroundColor: activeItem.sectionBg }}
         transition={{ duration: 0.7, ease: 'easeInOut' }}
@@ -213,8 +225,9 @@ export default function OurRange() {
           </h2>
         </motion.div>
 
-        {/* Carousel Stage Container */}
+        {/* Carousel Stage */}
         <div className="relative w-full max-w-[1000px] h-[380px] sm:h-[420px] flex items-center justify-center my-auto z-10">
+          {/* Previous Button */}
           <button
             onClick={handlePrev}
             aria-label="Previous"
@@ -223,6 +236,7 @@ export default function OurRange() {
             ❮
           </button>
 
+          {/* Cards */}
           <div className="relative w-full h-full flex items-center justify-center">
             {items.map((item, idx) => {
               const isActive = activeIndex === idx;
@@ -231,7 +245,11 @@ export default function OurRange() {
               return (
                 <motion.div
                   key={item.id}
-                  onClick={() => setActiveIndex(idx)}
+                  onClick={() => {
+                    if (!item.isComingSoon) {
+                      setActiveIndex(idx);
+                    }
+                  }}
                   initial={false}
                   animate={{
                     scale: style.scale,
@@ -243,20 +261,34 @@ export default function OurRange() {
                     duration: 0.55,
                     ease: [0.32, 0.72, 0, 1],
                   }}
-                  style={{ pointerEvents: style.pointerEvents }}
-                  className="absolute flex flex-col items-center cursor-pointer"
+                  style={{
+                    pointerEvents: style.pointerEvents,
+                  }}
+                  className={`absolute flex flex-col items-center ${
+                    item.isComingSoon
+                      ? 'cursor-not-allowed'
+                      : 'cursor-pointer'
+                  }`}
                 >
+                  {/* Product Circle */}
                   <div
                     className={`relative w-[210px] h-[210px] sm:w-[260px] sm:h-[260px] rounded-full border-2 sm:border-4 flex items-center justify-center transition-all duration-500 ${
-                      isActive ? item.ringBorder : 'border-white/20 bg-white/5'
+                      isActive
+                        ? item.ringBorder
+                        : 'border-white/20 bg-white/5'
                     }`}
                   >
+                    {/* Floating Icons */}
                     <AnimatePresence>
                       {isActive && (
                         <>
                           <motion.span
                             initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1, y: [0, -8, 0] }}
+                            animate={{
+                              scale: 1,
+                              opacity: 1,
+                              y: [0, -8, 0],
+                            }}
                             exit={{ scale: 0, opacity: 0 }}
                             transition={{
                               repeat: Infinity,
@@ -267,9 +299,14 @@ export default function OurRange() {
                           >
                             {item.floatingIcons[0]}
                           </motion.span>
+
                           <motion.span
                             initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1, y: [0, 8, 0] }}
+                            animate={{
+                              scale: 1,
+                              opacity: 1,
+                              y: [0, 8, 0],
+                            }}
                             exit={{ scale: 0, opacity: 0 }}
                             transition={{
                               repeat: Infinity,
@@ -280,9 +317,14 @@ export default function OurRange() {
                           >
                             {item.floatingIcons[1]}
                           </motion.span>
+
                           <motion.span
                             initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1, y: [0, -6, 0] }}
+                            animate={{
+                              scale: 1,
+                              opacity: 1,
+                              y: [0, -6, 0],
+                            }}
                             exit={{ scale: 0, opacity: 0 }}
                             transition={{
                               repeat: Infinity,
@@ -297,7 +339,9 @@ export default function OurRange() {
                       )}
                     </AnimatePresence>
 
+                    {/* PRODUCT BAG */}
                     <div className="relative w-[95px] h-[140px] sm:w-[120px] sm:h-[175px] rounded-t-[14px] rounded-b-[30px] shadow-2xl overflow-hidden flex flex-col items-center justify-between p-3.5">
+                      {/* Product Image */}
                       {item.img && (
                         <Image
                           src={item.img}
@@ -310,38 +354,66 @@ export default function OurRange() {
                         />
                       )}
 
-                      {/* <div
-                        className={`absolute inset-0 bg-gradient-to-b ${item.bagGradient} opacity-55 mix-blend-multiply`}
-                      /> */}
+                      {/* Dark Overlay for Coming Soon */}
+                      {item.isComingSoon && (
+                        <div className="absolute inset-0 bg-black/25 z-10" />
+                      )}
 
-                      {/* <div className="relative z-10 text-center font-black text-[9px] sm:text-[11px] tracking-widest text-white drop-shadow">
-                        SNACK
-                      </div> */}
-
+                      {/* Product Text */}
                       <div
-                        className="relative z-10 font-serif text-center text-white text-[13px] sm:text-[16px] leading-snug drop-shadow-md"
-                        dangerouslySetInnerHTML={{ __html: item.flavor }}
+                        className="relative z-20 font-serif text-center text-white text-[13px] sm:text-[16px] leading-snug drop-shadow-md"
+                        dangerouslySetInnerHTML={{
+                          __html: item.flavor,
+                        }}
                       />
 
-                      <div className="relative z-10 font-mono text-[8px] sm:text-[9px] text-white/90 tracking-widest drop-shadow">
+                      <div className="relative z-20 font-mono text-[8px] sm:text-[9px] text-white/90 tracking-widest drop-shadow">
                         {item.sub}
                       </div>
                     </div>
+
+                    {/* COMING SOON BADGE */}
+                    {item.isComingSoon && (
+                      <div className="absolute -top-3 -right-8 sm:-right-12 z-50">
+                        <span className="relative flex items-center gap-1.5 bg-[#181410] text-white text-[8px] sm:text-[10px] font-black uppercase tracking-wider px-2.5 sm:px-3 py-1.5 rounded-full shadow-xl border-2 border-white whitespace-nowrap">
+                          {/* Blinking Dot */}
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E8115B] opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E8115B]" />
+                          </span>
+
+                          <span>Coming Soon</span>
+                        </span>
+                      </div>
+                    )}
                   </div>
 
+                  {/* Product Name + Price */}
                   <div className="mt-4 text-center">
                     <h3 className="font-serif text-white tracking-widest text-lg sm:text-2xl drop-shadow">
                       {item.name}
                     </h3>
+
                     <p className="font-mono text-white/80 text-xs sm:text-sm mt-0.5">
                       {item.price}
                     </p>
+
+                    {/* Coming Soon Text */}
+                    {item.isComingSoon && (
+                      <div className="mt-2">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-black/30 px-3 py-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-white border border-white/20">
+                          <span className="h-1.5 w-1.5 rounded-full bg-[#E8115B] animate-pulse" />
+                          Coming Soon
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               );
             })}
           </div>
 
+          {/* Next Button */}
           <button
             onClick={handleNext}
             aria-label="Next"
@@ -351,41 +423,36 @@ export default function OurRange() {
           </button>
         </div>
 
-        {/* ---------------------------------------------------- */}
-        {/* 3-BUTTON SLIDING PILL NAVIGATION (ACTIVE IN CENTER)  */}
-        {/* ---------------------------------------------------- */}
-       <div className="relative z-10 mb-2 flex items-center justify-center">
-  {/* Capsule window for exactly 3 static buttons */}
-  <div className="relative px-3 py-2 bg-black/30 backdrop-blur-md rounded-full border border-white/10 shadow-2xl flex items-center gap-2">
-    
-    {/* 1. LEFT BUTTON: Go to Previous Item */}
-    <button
-      onClick={handlePrev}
-      aria-label="Previous Item"
-      className="w-9 h-9 shrink-0 rounded-full flex items-center justify-center text-sm font-bold bg-white/20 text-white hover:bg-white/40 active:scale-95 transition-all duration-300 cursor-pointer"
-    >
-      {(activeIndex - 1 + total) % total + 1}
-    </button>
+        {/* 3-BUTTON SLIDING PILL NAVIGATION */}
+        <div className="relative z-10 mb-2 flex items-center justify-center">
+          <div className="relative px-3 py-2 bg-black/30 backdrop-blur-md rounded-full border border-white/10 shadow-2xl flex items-center gap-2">
+            {/* Previous */}
+            <button
+              onClick={handlePrev}
+              aria-label="Previous Item"
+              className="w-9 h-9 shrink-0 rounded-full flex items-center justify-center text-sm font-bold bg-white/20 text-white hover:bg-white/40 active:scale-95 transition-all duration-300 cursor-pointer"
+            >
+              {(activeIndex - 1 + total) % total + 1}
+            </button>
 
-    {/* 2. CENTER BUTTON: Currently Active Item */}
-    <button
-      aria-label="Active Item"
-      className="w-9 h-9 shrink-0 rounded-full flex items-center justify-center text-sm font-black bg-[#FFC300] text-black scale-110 shadow-lg ring-2 ring-white transition-all duration-300 cursor-default"
-    >
-      {activeIndex + 1}
-    </button>
+            {/* Active */}
+            <button
+              aria-label="Active Item"
+              className="w-9 h-9 shrink-0 rounded-full flex items-center justify-center text-sm font-black bg-[#FFC300] text-black scale-110 shadow-lg ring-2 ring-white transition-all duration-300 cursor-default"
+            >
+              {activeIndex + 1}
+            </button>
 
-    {/* 3. RIGHT BUTTON: Go to Next Item */}
-    <button
-      onClick={handleNext}
-      aria-label="Next Item"
-      className="w-9 h-9 shrink-0 rounded-full flex items-center justify-center text-sm font-bold bg-white/20 text-white hover:bg-white/40 active:scale-95 transition-all duration-300 cursor-pointer"
-    >
-      {(activeIndex + 1) % total + 1}
-    </button>
-
-  </div>
-</div>  
+            {/* Next */}
+            <button
+              onClick={handleNext}
+              aria-label="Next Item"
+              className="w-9 h-9 shrink-0 rounded-full flex items-center justify-center text-sm font-bold bg-white/20 text-white hover:bg-white/40 active:scale-95 transition-all duration-300 cursor-pointer"
+            >
+              {(activeIndex + 1) % total + 1}
+            </button>
+          </div>
+        </div>
       </motion.div>
     </section>
   );

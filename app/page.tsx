@@ -5,6 +5,7 @@ import OurRange from './Components/OurRange';
 import RecipesSection from './Components/RecipesSection';
 import SnackingMoodSection from './Components/SnackingMoodSection';
 import BundleBuilderSection from './Components/BundleBuilderSection';
+import Faqs from './Components/Faqs';
 
 const WhatsAppIcon = ({ className = "h-8 w-8" }: { className?: string }) => (
   <svg
@@ -30,6 +31,7 @@ export default function Home() {
       <RecipesSection />
       <GiftingSection />
       <BundleBuilderSection />
+      <Faqs />
       <JoinFamSection />
       
 

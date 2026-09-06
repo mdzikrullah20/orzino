@@ -18,25 +18,26 @@ interface Bag {
   img: string;
   alt: string;
   slug?: string;
+  isComingSoon?: boolean;
 }
 
 const bags: Bag[] = [
   {
     id: 0,
-    name: 'Crispy Apple',
-    img: './images/apple.jpeg',
-    alt: 'ORZINO Apple Freeze Dried Cubes Pack',
+     name: 'Tropical Pineapple',
+    img: './images/newPineapple.jpeg',
+    alt: 'ORZINO Pineapple Freeze Dried Slices',
   },
   {
     id: 1,
     name: 'Juicy Mango',
-    img: './images/mango.jpeg',
+    img: './images/newMango.jpeg',
     alt: 'ORZINO Mango Freeze Dried Pack',
   },
   {
     id: 2,
     name: 'Tropical Pineapple',
-    img: './images/pineapple.jpeg',
+    img: './images/newPineapple.jpeg',
     alt: 'ORZINO Pineapple Freeze Dried Slices',
   },
   {
@@ -44,6 +45,7 @@ const bags: Bag[] = [
     name: 'Sweet Banana',
     img: './images/banana.jpeg',
     alt: 'ORZINO Freeze Dried Banana Pack',
+    isComingSoon: true,
   },
 ];
 
@@ -104,16 +106,24 @@ export default function HeroSection() {
 
           {/* CTA Button */}
           <motion.a
-            href="/products"
-            whileHover={{
-              scale: 1.08,
-              y: -4,
-              transition: { duration: 0.2 },
-            }}
-            whileTap={{ scale: 0.96 }}
-            className="inline-block px-7 sm:px-9 py-3.5 sm:py-4 rounded-full font-extrabold uppercase tracking-wide text-[14px] sm:text-[16px] border-[3px] border-white bg-transparent text-white shadow-lg mt-1 sm:mt-3 cursor-pointer hover:bg-white hover:text-[#181410] transition-colors"
+            href={activeBag.isComingSoon ? '#coming-soon' : '/products'}
+            whileHover={
+              !activeBag.isComingSoon
+                ? {
+                    scale: 1.08,
+                    y: -4,
+                    transition: { duration: 0.2 },
+                  }
+                : undefined
+            }
+            whileTap={!activeBag.isComingSoon ? { scale: 0.96 } : undefined}
+            className={`inline-block px-7 sm:px-9 py-3.5 sm:py-4 rounded-full font-extrabold uppercase tracking-wide text-[14px] sm:text-[16px] border-[3px] border-white shadow-lg mt-1 sm:mt-3 transition-all ${
+              activeBag.isComingSoon
+                ? 'bg-white/30 text-white border-white/80 cursor-not-allowed opacity-90'
+                : 'bg-transparent text-white cursor-pointer hover:bg-white hover:text-[#181410]'
+            }`}
           >
-            Explore Flavors
+            {activeBag.isComingSoon ? 'Coming Soon' : 'Explore Flavors'}
           </motion.a>
         </motion.div>
 
@@ -128,17 +138,42 @@ export default function HeroSection() {
               transition={{ duration: 0.6, ease: 'easeInOut' }}
               className="absolute w-[180px] xs:w-[220px] sm:w-[280px] md:w-[320px] h-[300px] xs:h-[360px] sm:h-[460px] md:h-[520px] rounded-[16px] sm:rounded-[22px] shadow-[0_16px_36px_rgba(0,0,0,0.3)] ring-4 ring-white"
             >
-              <Link href={activeBag.slug || '/products'} className="relative block w-full h-full overflow-hidden rounded-[12px] sm:rounded-[18px]">
-                <Image
-                  src={activeBag.img}
-                  alt={activeBag.alt || 'ORZINO Product Bag'}
-                  fill
-                  unoptimized
-                  sizes="(max-width: 640px) 220px, (max-width: 1024px) 280px, 320px"
-                  className="object-cover object-center"
-                  priority
-                />
-              </Link>
+              <div className="relative w-full h-full overflow-hidden rounded-[12px] sm:rounded-[18px]">
+                {/* Top Right Blinking Badge */}
+                {activeBag.isComingSoon && (
+                  <div className="absolute top-3 right-3 z-30 flex items-center gap-1.5 bg-[#181410]/90 backdrop-blur-md text-white text-[10px] sm:text-[12px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-md border border-white/20">
+                    <span className="relative flex h-2 sm:h-2.5 w-2 sm:w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E8115B] opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 sm:h-2.5 w-2 sm:w-2.5 bg-[#E8115B]"></span>
+                    </span>
+                    <span>Coming Soon</span>
+                  </div>
+                )}
+
+                {activeBag.isComingSoon ? (
+                  <Image
+                    src={activeBag.img}
+                    alt={activeBag.alt || 'ORZINO Product Bag'}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 640px) 220px, (max-width: 1024px) 280px, 320px"
+                    className="object-cover object-center"
+                    priority
+                  />
+                ) : (
+                  <Link href={activeBag.slug || '/products'} className="relative block w-full h-full">
+                    <Image
+                      src={activeBag.img}
+                      alt={activeBag.alt || 'ORZINO Product Bag'}
+                      fill
+                      unoptimized
+                      sizes="(max-width: 640px) 220px, (max-width: 1024px) 280px, 320px"
+                      className="object-cover object-center"
+                      priority
+                    />
+                  </Link>
+                )}
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>

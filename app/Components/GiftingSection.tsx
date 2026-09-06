@@ -55,7 +55,7 @@ export default function GiftingSection() {
             >
               {/* Gift Box Image */}
               <Image
-                src="./images/apple.jpeg"
+                src="./images/newMango.jpeg"
                 alt="New Expression Of Gifting - Orzino Gift Pack"
                 fill
                 unoptimized
