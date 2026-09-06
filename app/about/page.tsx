@@ -420,93 +420,101 @@ export default function AboutPage() {
           {/* =================================================
               RIGHT IMAGE
           ================================================= */}
+<div
+  className="
+    relative
+    h-[520px]
+    sm:h-[600px]
+    lg:h-[700px]
+    rounded-[12px]
+    overflow-hidden
+    border-2
+    border-white/20
+    shadow-2xl
+  "
+>
+  {/* Main Image */}
+  <Image
+    src="/images/newMango.jpeg"
+    alt="Orzino Fruit Crafting"
+    fill
+    unoptimized
+    className="object-cover"
+  />
 
-          <div
-            className="
-              relative
-              h-[320px]
-              sm:h-[420px]
-              rounded-[24px]
-              overflow-hidden
-              border-2
-              border-white/20
-              shadow-2xl
-            "
-          >
+  {/* Dark Gradient Overlay */}
+  <div
+    className="
+      absolute
+      inset-0
+      bg-gradient-to-t
+      from-black/80
+      via-transparent
+      to-transparent
+    "
+  />
 
-            <Image
-              src="/images/mango.jpeg"
-              alt="Orzino Fruit Crafting"
-              fill
-              unoptimized
-              className="object-cover"
-            />
+  {/* Bottom Information Card */}
+  <div
+    className="
+      absolute
+      bottom-6
+      left-6
+      right-6
+      p-4
+      sm:p-5
+      bg-black/60
+      backdrop-blur-md
+      rounded-[16px]
+      border
+      border-white/10
+      flex
+      items-center
+      justify-between
+      gap-4
+    "
+  >
+    {/* Text */}
+    <div>
+      <span
+        className="
+          text-[#FFC300]
+          font-bold
+          text-xs
+          sm:text-sm
+          uppercase
+          tracking-wider
+        "
+      >
+        Verified Freshness
+      </span>
 
-            <div
-              className="
-                absolute
-                inset-0
-                bg-gradient-to-t
-                from-black/80
-                via-transparent
-                to-transparent
-              "
-            />
+      <h4
+        className="
+          text-white
+          font-bold
+          text-sm
+          sm:text-base
+          mt-1
+        "
+      >
+        Locking Peak Nutrition Naturally
+      </h4>
+    </div>
 
-            <div
-              className="
-                absolute
-                bottom-6
-                left-6
-                right-6
-                p-4
-                bg-black/60
-                backdrop-blur-md
-                rounded-[16px]
-                border
-                border-white/10
-                flex
-                items-center
-                justify-between
-              "
-            >
-
-              <div>
-
-                <span
-                  className="
-                    text-[#FFC300]
-                    font-bold
-                    text-xs
-                    uppercase
-                  "
-                >
-                  Verified Freshness
-                </span>
-
-                <h4
-                  className="
-                    text-white
-                    font-bold
-                    text-sm
-                  "
-                >
-                  Locking Peak Nutrition Naturally
-                </h4>
-
-              </div>
-
-              <Award
-                className="
-                  text-[#FFC300]
-                  w-6
-                  h-6
-                "
-              />
-
-            </div>
-
-          </div>
+    {/* Award Icon */}
+    <Award
+      className="
+        text-[#FFC300]
+        w-6
+        h-6
+        sm:w-8
+        sm:h-8
+        shrink-0
+      "
+    />
+  </div>
+</div>
 
         </div>
       </section>
